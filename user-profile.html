@@ -257,12 +257,12 @@
             z-index: -1;
         }
 
-        body.dark-mode .user-profile-section {
+        body.dark-mode .user-profile-section::before {
             background: rgba(18, 18, 18, 0.8);
         }
-        /* body.dark-mode .hero::before {
+        body.dark-mode .hero::before {
             background: rgba(26, 26, 26, 0.8);
-        } */
+        }
         .user-profile-container {
             max-width: 1000px;
             margin: 0 auto;
@@ -889,13 +889,13 @@
                     </span>
                 </label>
                 <a href="user-profile.html" class="active" title="User Profile"><i class="fas fa-user"></i></a>
-                <a href="#" title="Notifications"><i class="fas fa-bell"></i></a>
+                <a href="notification.html" title="Notifications"><i class="fas fa-bell"></i></a>
                 <a href="login.html" title="Log Out"><i class="fas fa-sign-out-alt"></i></a>
             </div>
         </div>
     </nav>
 
-    <section class="user-profile-section">
+    <section class="fade-in user-profile-section">
         <div class="user-profile-container">
             <div class="profile-header">
                 <img src="https://www.pngmart.com/files/23/Profile-PNG-Photo.png" alt="User Profile" class="user-profile-img">
