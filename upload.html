@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library - Burmese Reader</title>
+    <title>Burmese Reader</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
@@ -31,14 +31,6 @@
         }
         body.dark-mode h2 {
             color: #F2F3AE;
-        }
-
-        p {
-            color: #69140E;
-        }
-
-        body.dark-mode p {
-            color: #D58936;
         }
 
         .navbar {
@@ -90,7 +82,7 @@
 
         .logo span {
             font-family: 'Playfair Display', serif;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 600;
             color: #3C1518;
         }
@@ -250,10 +242,6 @@
         }
 
         .nav-btn:hover {
-            transform: scale(1.05);
-        }
-
-        body.dark-mode .nav-btn:hover {
             transform: scale(1.05);
         }
 
@@ -423,7 +411,6 @@
         }
 
         .book-card h3 {
-            font-family: 'Playfair Display', serif;
             font-size: 18px;
             margin-bottom: 5px;
             color: #A44200;
@@ -527,7 +514,6 @@
         }
 
         .footer-content h3 {
-            font-family: 'Playfair Display', serif;
             font-size: 20px;
             margin-bottom: 20px;
             color: #A44200;
@@ -698,7 +684,7 @@
     <nav class="navbar">
         <div class="navbar-content">
             <div class="logo">
-                <a href="index.html">
+                <a href="second-home.html">
                     <i class="fas fa-book"></i>
                     <span>Burmese Reader</span>
                 </a>
@@ -1152,6 +1138,7 @@
                         <span>Khin Su</span>
                     </div>
                 </a>
+
                 <a href="book-details.html?id=38" class="book-card" data-page="5">
                     <img src="https://covers.openlibrary.org/w/id/14826736-M.jpg" alt="Book Cover">
                     <h3>The Alchemist</h3>
@@ -1289,20 +1276,24 @@
     </section>
 
     <footer>
+       
         <div class="footer-content">
             <div>
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="about-us.html">About Us</a></li>
                     <li><a href="index.html">Home</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                
+                    <li><a href="upload.html">User Upload</a></li>
                 </ul>
             </div>
             <div id="footer-help-support">
                 <h3>Help Center</h3>
                 <ul>
-                    <li><a href="#">FAQ</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">Terms of Service</a></li>
+                    
+                    <li><a href="contact-us.html">Contact Us</a></li>
+                    <li><a href="about-us.html">Terms of Service</a></li>
+                    
                 </ul>
             </div>
             <div>
@@ -1410,12 +1401,12 @@
         });
 
         function handleSwipe() {
-            const swipeThreshold = 50;
+            const swipeThreshold = 50; // Minimum distance to consider a swipe
             if (touchEndX < touchStartX - swipeThreshold && currentPage < totalPages) {
-                showPage(currentPage + 1);
+                showPage(currentPage + 1); // Swipe left to go to next page
             }
             if (touchEndX > touchStartX + swipeThreshold && currentPage > 1) {
-                showPage(currentPage - 1);
+                showPage(currentPage - 1); // Swipe right to go to previous page
             }
         }
     </script>
