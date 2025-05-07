@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burmese Reader</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: url('https://images.pexels.com/photos/8052681/pexels-photo-8052681.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2') center/cover fixed no-repeat;
+            color: #3C1518;
+            transition: all 0.3s ease-in;
+            padding-top: 80px;
+            position: relative;
+        }
+
+        body.dark-mode {
+            color: #F2F3AE;
+        }
+
+        body.dark-mode::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+            transition: all 0.3s ease-in;
+        }
+
+        .navbar {
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            background: #FFFFFF;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease-in;
+            top: 0;
+        }
+
+        body.dark-mode .navbar {
+            background: #69140E;
+            box-shadow: 0 2px 5px rgba(255, 255, 255, 0.05);
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 40px;
+            color: #A44200;
+        }
+
+        body.dark-mode .logo i {
+            color: #D58936;
+        }
+
+        .logo span {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: #3C1518;
+        }
+
+        body.dark-mode .logo span {
+            color: #F2F3AE;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: #3C1518;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .nav-links a {
+            color: #F2F3AE;
+        }
+
+        .nav-links a:hover {
+            color: #A44200;
+        }
+
+        body.dark-mode .nav-links a:hover {
+            color: #D58936;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .theme-switch {
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            width: 50px;
+            height: 25px;
+        }
+
+        .theme-switch input {
+            display: none;
+        }
+
+        .theme-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #A44200;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .theme-slider {
+            background: #69140E;
+        }
+
+        .theme-slider::before {
+            content: '';
+            position: absolute;
+            width: 21px;
+            height: 21px;
+            background: #FFFFFF;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode .theme-slider::before {
+            background: #F2F3AE;
+            transform: translateX(25px);
+        }
+
+        .theme-switch input:checked + .theme-slider {
+            background: #D58936;
+        }
+
+        body.dark-mode .theme-switch input:checked + .theme-slider {
+            background: #D58936;
+        }
+
+        .theme-switch i {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            transition: opacity 0.3s ease;
+        }
+
+        .theme-switch .sun {
+            left: 5px;
+            color: #A44200;
+            opacity: 1;
+        }
+
+        body.dark-mode .theme-switch .sun {
+            opacity: 0;
+        }
+
+        .theme-switch .moon {
+            right: 5px;
+            color: #D58936;
+            opacity: 0;
+        }
+
+        body.dark-mode .theme-switch .moon {
+            opacity: 1;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode .btn:hover {
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-primary {
+            background: #A44200;
+            color: #FFFFFF;
+        }
+
+        .btn-primary:hover {
+            background: #D58936;
+        }
+
+        body.dark-mode .btn-primary {
+            background: #D58936;
+        }
+
+        .btn-secondary {
+            background: #69140E;
+            color: #FFFFFF;
+        }
+
+        .btn-secondary:hover {
+            background: #A44200;
+        }
+
+        body.dark-mode .btn-secondary {
+            background: #A44200;
+        }
+
+        body.dark-mode .btn-secondary:hover {
+            background: #D58936;
+        }
+
+        /* Login Section */
+        .login-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 20px 80px;
+            background: transparent;
+        }
+
+        body.dark-mode .login-section {
+            background: transparent;
+        }
+
+        .login-container {
+            max-width: 400px;
+            width: 100%;
+            background: #FFFFFF;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease-in;
+        }
+
+        body.dark-mode .login-container {
+            background: #222222;
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+        }
+
+        .login-container h2 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 30px;
+            font-family: 'Playfair Display', serif;
+            color: #A44200;
+        }
+
+        body.dark-mode .login-container h2 {
+            color: #D58936;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #3C1518;
+        }
+
+        body.dark-mode .form-group label {
+            color: #F2F3AE;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #A44200;
+            font-size: 16px;
+            background: #FFFFFF;
+            color: #3C1518;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .form-group input {
+            background: #333333;
+            border-color: #D58936;
+            color: #F2F3AE;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #D58936;
+            box-shadow: 0 0 5px rgba(213, 137, 54, 0.3);
+        }
+
+        body.dark-mode .form-group input:focus {
+            border-color: #F2F3AE;
+            box-shadow: 0 0 5px rgba(242, 243, 174, 0.3);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 25px;
+            background: #A44200;
+            color: #FFFFFF;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .login-btn {
+            background: #D58936;
+        }
+
+        .login-btn:hover {
+            background: #D58936;
+            transform: scale(1.02);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode .login-btn:hover {
+            background: #F2F3AE;
+            color: #3C1518;
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .register-link p {
+            font-size: 14px;
+            color: #3C1518;
+        }
+
+        body.dark-mode .register-link p {
+            color: #F2F3AE;
+        }
+
+        .register-link a {
+            color: #A44200;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .register-link a {
+            color: #D58936;
+        }
+
+        .register-link a:hover {
+            color: #D58936;
+        }
+
+        body.dark-mode .register-link a:hover {
+            color: #F2F3AE;
+        }
+
+        /* Footer */
+        footer {
+            background: #FFFFFF;
+            padding: 40px 0;
+            transition: all 0.3s ease-in;
+        }
+
+        body.dark-mode footer {
+            background: #1A1A1A;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-content h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #A44200;
+        }
+
+        body.dark-mode .footer-content h3 {
+            color: #F2F3AE;
+        }
+
+        .footer-content ul {
+            list-style: none;
+        }
+
+        .footer-content ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-content ul li a {
+            color: #3C1518;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .footer-content ul li a {
+            color: #F2F3AE;
+        }
+
+        .footer-content ul li a:hover {
+            color: #A44200;
+        }
+
+        body.dark-mode .footer-content ul li a:hover {
+            color: #D58936;
+        }
+
+        .contact-info {
+            margin-bottom: 20px;
+        }
+
+        .contact-info p {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .contact-info a {
+            text-decoration: none;
+            color: #3C1518;
+        }
+
+        body.dark-mode .contact-info a {
+            color: #F2F3AE;
+        }
+
+        .contact-info i {
+            font-size: 16px;
+            color: #A44200;
+        }
+
+        body.dark-mode .contact-info i {
+            color: #D58936;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background: #69140E;
+            border-radius: 50%;
+            font-size: 15px;
+            color: #FFFFFF;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .social-icons a {
+            background: #A44200;
+        }
+
+        .social-icons a:hover {
+            background: #D58936;
+        }
+
+        body.dark-mode .social-icons a:hover {
+            background: #F2F3AE;
+            color: #3C1518;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            font-size: 12px;
+            color: #3C1518;
+        }
+
+        body.dark-mode .copyright {
+            color: #F2F3AE;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .nav-actions {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .login-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <a href="home.html">
+                    <i class="fas fa-book"></i>
+                    <span>Burmese Reader</span>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="home.html">Home</a>
+                <a href="library.html">Library</a>
+                <a href="upload.html">User Upload</a>
+                <a href="about-us.html">About Us</a>
+                <a href="contact-us.html">Contact Us</a>
+            </div>
+            <div class="nav-actions">
+                <label class="theme-switch">
+                    <input type="checkbox" id="theme-toggle" onchange="toggleMode()">
+                    <span class="theme-slider">
+                        <i class="fas fa-sun sun"></i>
+                        <i class="fas fa-moon moon"></i>
+                    </span>
+                </label>
+                <a href="register.html" class="btn btn-primary">Register</a>
+                <a href="login.html" class="btn btn-secondary">Log In</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="login-section">
+        <div class="login-container">
+            <h2>Log In</h2>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+            </div>
+            <button type="button" class="login-btn" onclick="window.location.href='user-profile.html'">Log In</button>
+            <div class="register-link">
+                <p>Don't have an account? <a href="register.html">Register</a></p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="home.html#library-section">How It Works</a></li>
+                    <li><a href="home.html#hero-section">Home</a></li>
+                </ul>
+            </div>
+            <div id="footer-help-support">
+                <h3>Help Center</h3>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Contact</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:support@burmesereader.com">support@burmesereader.com</a></p>
+                    <p><i class="fas fa-phone"></i> <a href="tel:+95123456789">+95 123 456 789</a></p>
+                </div>
+                <div class="social-icons">
+                    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">© 2025 Burmese Readers. All rights reserved.</div>
+    </footer>
+
+    <script>
+        function toggleMode() {
+            document.body.classList.toggle('dark-mode');
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle.checked) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        window.onload = function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('theme-toggle').checked = true;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library - Burmese Reader</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #F8F5F2;
+            color: #3C1518;
+            transition: all 0.3s ease-in;
+        }
+
+        body.dark-mode {
+            background: #1A1A1A;
+            color: #F2F3AE;
+        }
+
+        p {
+            color: #69140E;
+        }
+
+        body.dark-mode p {
+            color: #D58936;
+        }
+
+        .navbar {
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            background: #FFFFFF;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease-in;
+        }
+
+        body.dark-mode .navbar {
+            background: #69140E;
+            box-shadow: 0 2px 5px rgba(255, 255, 255, 0.05);
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 40px;
+            color: #A44200;
+        }
+
+        body.dark-mode .logo i {
+            color: #D58936;
+        }
+
+        .logo span {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 600;
+            color: #3C1518;
+        }
+
+        body.dark-mode .logo span {
+            color: #F2F3AE;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: #3C1518;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .nav-links a {
+            color: #F2F3AE;
+        }
+
+        .nav-links a:hover {
+            color: #A44200;
+        }
+
+        body.dark-mode .nav-links a:hover {
+            color: #D58936;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .theme-switch {
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            width: 50px;
+            height: 25px;
+        }
+
+        .theme-switch input {
+            display: none;
+        }
+
+        .theme-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #A44200;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .theme-slider {
+            background: #69140E;
+        }
+
+        .theme-slider::before {
+            content: '';
+            position: absolute;
+            width: 21px;
+            height: 21px;
+            background: #FFFFFF;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode .theme-slider::before {
+            background: #F2F3AE;
+            transform: translateX(25px);
+        }
+
+        .theme-switch input:checked + .theme-slider {
+            background: #D58936;
+        }
+
+        body.dark-mode .theme-switch input:checked + .theme-slider {
+            background: #D58936;
+        }
+
+        .theme-switch i {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            transition: opacity 0.3s ease;
+        }
+
+        .theme-switch .sun {
+            left: 5px;
+            color: #A44200;
+            opacity: 1;
+        }
+
+        body.dark-mode .theme-switch .sun {
+            opacity: 0;
+        }
+
+        .theme-switch .moon {
+            right: 5px;
+            color: #D58936;
+            opacity: 0;
+        }
+
+        body.dark-mode .theme-switch .moon {
+            opacity: 1;
+        }
+
+        .nav-actions a {
+            text-decoration: none;
+            font-size: 20px;
+            color: #3C1518;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .nav-actions a {
+            color: #F2F3AE;
+        }
+
+        .nav-actions a:hover {
+            color: #A44200;
+        }
+
+        body.dark-mode .nav-actions a:hover {
+            color: #D58936;
+        }
+
+        .nav-actions .active {
+            color: #A44200;
+        }
+
+        body.dark-mode .nav-actions .active {
+            color: #D58936;
+        }
+
+        .search-bar-container {
+            padding: 120px 20px 20px;
+            background: #F8F5F2;
+            transition: all 0.3s ease-in;
+        }
+
+        body.dark-mode .search-bar-container {
+            background: #1A1A1A;
+        }
+
+        .search-bar-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 0 20px;
+        }
+
+        .search-bar {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border: 1px solid #A44200;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #FFFFFF;
+            color: #3C1518;
+        }
+
+        body.dark-mode .search-bar {
+            background: #333333;
+            border-color: #D58936;
+            color: #F2F3AE;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: #D58936;
+            box-shadow: 0 0 5px rgba(213, 137, 54, 0.3);
+        }
+
+        body.dark-mode .search-bar:focus {
+            border-color: #F2F3AE;
+            box-shadow: 0 0 5px rgba(242, 243, 174, 0.3);
+        }
+
+        .location-dropdown {
+            position: relative;
+        }
+
+        .location-dropdown select {
+            padding: 10px 30px 10px 15px;
+            border: 1px solid #A44200;
+            border-radius: 25px;
+            font-size: 16px;
+            background: #FFFFFF;
+            color: #3C1518;
+            appearance: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .location-dropdown select {
+            background: #333333;
+            border-color: #D58936;
+            color: #F2F3AE;
+        }
+
+        .location-dropdown select:hover {
+            border-color: #D58936;
+        }
+
+        body.dark-mode .location-dropdown select:hover {
+            border-color: #F2F3AE;
+        }
+
+        .location-dropdown select:focus {
+            outline: none;
+            border-color: #D58936;
+            box-shadow: 0 0 5px rgba(213, 137, 54, 0.3);
+        }
+
+        body.dark-mode .location-dropdown select:focus {
+            border-color: #F2F3AE;
+            box-shadow: 0 0 5px rgba(242, 243, 174, 0.3);
+        }
+
+        .location-dropdown::after {
+            content: '\f078';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #69140E;
+            pointer-events: none;
+        }
+
+        body.dark-mode .location-dropdown::after {
+            color: #A44200;
+        }
+
+        .library-section {
+            min-height: 100vh;
+            padding: 20px 20px 80px;
+            background: linear-gradient(135deg, #F8F5F2 50%, #F2F3AE 100%);
+        }
+
+        body.dark-mode .library-section {
+            background: linear-gradient(135deg, #1A1A1A 50%, #333333 100%);
+        }
+
+        .library-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            grid-template-rows: repeat(2, auto);
+            gap: 20px;
+        }
+
+        .book-card {
+            background: #FFFFFF;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        body.dark-mode .book-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05);
+        }
+
+        .book-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode .book-card:hover {
+            box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+        }
+
+        .book-card img {
+            max-width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            padding: 5px;
+        }
+
+        .book-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #A44200;
+            text-align: center;
+        }
+
+        body.dark-mode .book-card h3 {
+            color: #D58936;
+        }
+
+        .book-card p {
+            font-size: 14px;
+            color: #69140E;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        body.dark-mode .book-card p {
+            color: #A44200;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .user-profile i {
+            font-size: 20px;
+            color: #A44200;
+        }
+
+        body.dark-mode .user-profile i {
+            color: #D58936;
+        }
+
+        .user-profile span {
+            font-size: 14px;
+            color: #3C1518;
+        }
+
+        body.dark-mode .user-profile span {
+            color: #F2F3AE;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            gap: 10px;
+            touch-action: pan-y;
+        }
+
+        .pagination a {
+            padding: 8px 12px;
+            color: #3C1518;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .pagination a {
+            color: #F2F3AE;
+        }
+
+        .pagination a:hover {
+            color: #A44200;
+        }
+
+        body.dark-mode .pagination a:hover {
+            color: #D58936;
+        }
+
+        .pagination .active {
+            font-weight: bold;
+            color: #A44200;
+        }
+
+        body.dark-mode .pagination .active {
+            color: #D58936;
+        }
+
+        footer {
+            background: #FFFFFF;
+            padding: 40px 0;
+            transition: all 0.3s ease-in;
+        }
+
+        body.dark-mode footer {
+            background: #1A1A1A;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #A44200;
+        }
+
+        body.dark-mode .footer-content h3 {
+            color: #F2F3AE;
+        }
+
+        .footer-content ul {
+            list-style: none;
+        }
+
+        .footer-content ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-content ul li a {
+            color: #3C1518;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .footer-content ul li a {
+            color: #F2F3AE;
+        }
+
+        .footer-content ul li a:hover {
+            color: #A44200;
+        }
+
+        body.dark-mode .footer-content ul li a:hover {
+            color: #D58936;
+        }
+
+        .contact-info p {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .contact-info i {
+            color: #A44200;
+        }
+
+        body.dark-mode .contact-info i {
+            color: #D58936;
+        }
+
+        .contact-info a {
+            color: #3C1518;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .contact-info a {
+            color: #F2F3AE;
+        }
+
+        .contact-info a:hover {
+            color: #A44200;
+        }
+
+        body.dark-mode .contact-info a:hover {
+            color: #D58936;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .social-icons a {
+            color: #3C1518;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .social-icons a {
+            color: #F2F3AE;
+        }
+
+        .social-icons a:hover {
+            color: #A44200;
+        }
+
+        body.dark-mode .social-icons a:hover {
+            color: #D58936;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            font-size: 12px;
+            color: #3C1518;
+        }
+
+        body.dark-mode .copyright {
+            color: #F2F3AE;
+        }
+
+        @media (max-width: 1024px) {
+            .book-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .nav-actions {
+                flex-direction: row;
+                gap: 20px;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .search-bar-wrapper {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .search-bar {
+                width: 100%;
+            }
+
+            .location-dropdown {
+                width: 100%;
+            }
+
+            .location-dropdown select {
+                width: 100%;
+            }
+
+            .book-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .book-card img {
+                max-height: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .book-grid {
+                grid-template-columns: repeat(1, minmax(0, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <a href="home.html">
+                    <i class="fas fa-book"></i>
+                    <span>Burmese Reader</span>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="second-home-page.html">Home</a>
+                <a href="second-library.html">Library</a>
+                <a href="second-upload.html">User Upload</a>
+                <a href="second-about-us.html">About Us</a>
+                <a href="second-contact-us-page.html">Contact Us</a>
+            </div>
+            <div class="nav-actions">
+                <label class="theme-switch">
+                    <input type="checkbox" id="theme-toggle" onchange="toggleMode()">
+                    <span class="theme-slider">
+                        <i class="fas fa-sun sun"></i>
+                        <i class="fas fa-moon moon"></i>
+                    </span>
+                </label>
+                <a href="user-profile.html" title="User Profile"><i class="fas fa-user"></i></a>
+                <a href="#" title="Notifications"><i class="fas fa-bell"></i></a>
+                <a href="login.html" title="Log Out"><i class="fas fa-sign-out-alt"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="search-bar-container">
+        <div class="search-bar-wrapper">
+            <input type="text" class="search-bar" placeholder="Search books...">
+            <div class="location-dropdown">
+                <select id="location-select">
+                    <option value="">Select Location</option>
+                    <option value="yangon">Yangon</option>
+                    <option value="mandalay">Mandalay</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <section class="library-section" id="library-section">
+        <div class="library-container">
+            <div class="book-grid" id="book-grid">
+                <!-- Page 1 -->
+                <a href="book-details.html?id=1" class="book-card" data-page="1">
+                    <img src="https://covers.openlibrary.org/b/id/13768581-M.jpg" alt="Book Cover">
+                    <h3>The Great Gatsby</h3>
+                    <p>Author: F. Scott Fitzgerald</p>
+                    <p>Borrow Time: 14 days</p>
+                    <p>Price: 5000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Sa Pal Phyu Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=2" class="book-card" data-page="1">
+                    <img src="https://covers.openlibrary.org/b/id/9269962-M.jpg" alt="Book Cover">
+                    <h3>Game Of Thrones</h3>
+                    <p>Author: Jane Austen</p>
+                    <p>Borrow Time: 10 days</p>
+                    <p>Price: 4000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Sa Pal Phyu Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=3" class="book-card" data-page="1">
+                    <img src="https://covers.openlibrary.org/b/id/12648183-M.jpg" alt="Book Cover">
+                    <h3>The Alchemist</h3>
+                    <p>Author: Paulo Coelho</p>
+                    <p>Borrow Time: 7 days</p>
+                    <p>Price: 3000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Sa Pal Phyu Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=4" class="book-card" data-page="1">
+                    <img src="https://covers.openlibrary.org/w/id/8417699-M.jpg" alt="Book Cover">
+                    <h3>1984</h3>
+                    <p>Author: George Orwell</p>
+                    <p>Borrow Time: 14 days</p>
+                    <p>Price: 6000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Sa Pal Phyu Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=5" class="book-card" data-page="1">
+                    <img src="https://covers.openlibrary.org/w/id/6760679-M.jpg" alt="Book Cover">
+                    <h3>Animal Farm</h3>
+                    <p>Author: George Orwell</p>
+                    <p>Borrow Time: 10 days</p>
+                    <p>Price: 3500 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Sa Pal Phyu Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=6" class="book-card" data-page="1">
+                    <img src="https://covers.openlibrary.org/w/id/11741986-M.jpg" alt="Book Cover">
+                    <h3>The Great Gatsby</h3>
+                    <p>Author: F. Scott Fitzgerald</p>
+                    <p>Borrow Time: 14 days</p>
+                    <p>Price: 5000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Sa Pal Phyu Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=7" class="book-card" data-page="1">
+                    <img src="https://covers.openlibrary.org/w/id/9242793-M.jpg" alt="Book Cover">
+                    <h3>Pride and Prejudice</h3>
+                    <p>Author: Jane Austen</p>
+                    <p>Borrow Time: 10 days</p>
+                    <p>Price: 4000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Sa Pal Phyu Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=8" class="book-card" data-page="1">
+                    <img src="https://covers.openlibrary.org/b/id/14654706-M.jpg" alt="Book Cover">
+                    <h3>The Alchemist</h3>
+                    <p>Author: Paulo Coelho</p>
+                    <p>Borrow Time: 7 days</p>
+                    <p>Price: 3000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Sa Pal Phyu Library</span>
+                    </div>
+                </a>
+                <!-- Page 2 -->
+                <a href="book-details.html?id=9" class="book-card" data-page="2">
+                    <img src="https://covers.openlibrary.org/w/id/8359371-M.jpg" alt="Book Cover">
+                    <h3>1984</h3>
+                    <p>Author: George Orwell</p>
+                    <p>Borrow Time: 14 days</p>
+                    <p>Price: 6000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Mingalar Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=10" class="book-card" data-page="2">
+                    <img src="https://covers.openlibrary.org/w/id/8295312-M.jpg" alt="Book Cover">
+                    <h3>Animal Farm</h3>
+                    <p>Author: George Orwell</p>
+                    <p>Borrow Time: 10 days</p>
+                    <p>Price: 3500 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Mingalar Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=11" class="book-card" data-page="2">
+                    <img src="https://covers.openlibrary.org/w/id/8231759-M.jpg" alt="Book Cover">
+                    <h3>The Great Gatsby</h3>
+                    <p>Author: F. Scott Fitzgerald</p>
+                    <p>Borrow Time: 14 days</p>
+                    <p>Price: 5000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Mingalar Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=12" class="book-card" data-page="2">
+                    <img src="https://covers.openlibrary.org/w/id/86849-M.jpg" alt="Book Cover">
+                    <h3>Pride and Prejudice</h3>
+                    <p>Author: Jane Austen</p>
+                    <p>Borrow Time: 10 days</p>
+                    <p>Price: 4000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Mingalar Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=13" class="book-card" data-page="2">
+                    <img src="https://covers.openlibrary.org/w/id/14826736-M.jpg" alt="Book Cover">
+                    <h3>The Alchemist</h3>
+                    <p>Author: Paulo Coelho</p>
+                    <p>Borrow Time: 7 days</p>
+                    <p>Price: 3000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Mingalar Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=14" class="book-card" data-page="2">
+                    <img src="https://covers.openlibrary.org/w/id/8359371-M.jpg" alt="Book Cover">
+                    <h3>1984</h3>
+                    <p>Author: George Orwell</p>
+                    <p>Borrow Time: 14 days</p>
+                    <p>Price: 6000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Mingalar Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=15" class="book-card" data-page="2">
+                    <img src="https://covers.openlibrary.org/w/id/8295312-M.jpg" alt="Book Cover">
+                    <h3>Animal Farm</h3>
+                    <p>Author: George Orwell</p>
+                    <p>Borrow Time: 10 days</p>
+                    <p>Price: 3500 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Mingalar Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=16" class="book-card" data-page="2">
+                    <img src="https://covers.openlibrary.org/w/id/8231759-M.jpg" alt="Book Cover">
+                    <h3>The Great Gatsby</h3>
+                    <p>Author: F. Scott Fitzgerald</p>
+                    <p>Borrow Time: 14 days</p>
+                    <p>Price: 5000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Mingalar Library</span>
+                    </div>
+                </a>
+                <!-- Page 3 -->
+                <a href="book-details.html?id=17" class="book-card" data-page="3">
+                    <img src="https://covers.openlibrary.org/w/id/86849-M.jpg" alt="Book Cover">
+                    <h3>Pride and Prejudice</h3>
+                    <p>Author: Jane Austen</p>
+                    <p>Borrow Time: 10 days</p>
+                    <p>Price: 4000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Sar Oak Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=18" class="book-card" data-page="3">
+                    <img src="https://covers.openlibrary.org/w/id/14826736-M.jpg" alt="Book Cover">
+                    <h3>The Alchemist</h3>
+                    <p>Author: Paulo Coelho</p>
+                    <p>Borrow Time: 7 days</p>
+                    <p>Price: 3000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Sar Oak Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=19" class="book-card" data-page="3">
+                    <img src="https://covers.openlibrary.org/w/id/8359371-M.jpg" alt="Book Cover">
+                    <h3>1984</h3>
+                    <p>Author: George Orwell</p>
+                    <p>Borrow Time: 14 days</p>
+                    <p>Price: 6000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Sar Oak Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=20" class="book-card" data-page="3">
+                    <img src="https://covers.openlibrary.org/w/id/8295312-M.jpg" alt="Book Cover">
+                    <h3>Animal Farm</h3>
+                    <p>Author: George Orwell</p>
+                    <p>Borrow Time: 10 days</p>
+                    <p>Price: 3500 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Sar Oak Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=21" class="book-card" data-page="3">
+                    <img src="https://covers.openlibrary.org/w/id/8231759-M.jpg" alt="Book Cover">
+                    <h3>The Great Gatsby</h3>
+                    <p>Author: F. Scott Fitzgerald</p>
+                    <p>Borrow Time: 14 days</p>
+                    <p>Price: 5000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Eternal Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=22" class="book-card" data-page="3">
+                    <img src="https://covers.openlibrary.org/w/id/86849-M.jpg" alt="Book Cover">
+                    <h3>Pride and Prejudice</h3>
+                    <p>Author: Jane Austen</p>
+                    <p>Borrow Time: 10 days</p>
+                    <p>Price: 4000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Eternal Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=23" class="book-card" data-page="3">
+                    <img src="https://covers.openlibrary.org/w/id/14826736-M.jpg" alt="Book Cover">
+                    <h3>The Alchemist</h3>
+                    <p>Author: Paulo Coelho</p>
+                    <p>Borrow Time: 7 days</p>
+                    <p>Price: 3000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Eternal Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=24" class="book-card" data-page="3">
+                    <img src="https://covers.openlibrary.org/w/id/8359371-M.jpg" alt="Book Cover">
+                    <h3>1984</h3>
+                    <p>Author: George Orwell</p>
+                    <p>Borrow Time: 14 days</p>
+                    <p>Price: 6000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>Eternal Library</span>
+                    </div>
+                </a>
+                <!-- Page 4 -->
+                <a href="book-details.html?id=25" class="book-card" data-page="4">
+                    <img src="https://covers.openlibrary.org/w/id/8295312-M.jpg" alt="Book Cover">
+                    <h3>Animal Farm</h3>
+                    <p>Author: George Orwell</p>
+                    <p>Borrow Time: 10 days</p>
+                    <p>Price: 3500 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>YS Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=26" class="book-card" data-page="4">
+                    <img src="https://covers.openlibrary.org/w/id/8231759-M.jpg" alt="Book Cover">
+                    <h3>The Great Gatsby</h3>
+                    <p>Author: F. Scott Fitzgerald</p>
+                    <p>Borrow Time: 14 days</p>
+                    <p>Price: 5000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>YS Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=27" class="book-card" data-page="4">
+                    <img src="https://covers.openlibrary.org/w/id/86849-M.jpg" alt="Book Cover">
+                    <h3>Pride and Prejudice</h3>
+                    <p>Author: Jane Austen</p>
+                    <p>Borrow Time: 10 days</p>
+                    <p>Price: 4000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>YS Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=28" class="book-card" data-page="4">
+                    <img src="https://covers.openlibrary.org/w/id/14826736-M.jpg" alt="Book Cover">
+                    <h3>The Alchemist</h3>
+                    <p>Author: Paulo Coelho</p>
+                    <p>Borrow Time: 7 days</p>
+                    <p>Price: 3000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>YS Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=29" class="book-card" data-page="4">
+                    <img src="https://covers.openlibrary.org/w/id/8359371-M.jpg" alt="Book Cover">
+                    <h3>1984</h3>
+                    <p>Author: George Orwell</p>
+                    <p>Borrow Time: 14 days</p>
+                    <p>Price: 6000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>YS Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=30" class="book-card" data-page="4">
+                    <img src="https://covers.openlibrary.org/w/id/8295312-M.jpg" alt="Book Cover">
+                    <h3>Animal Farm</h3>
+                    <p>Author: George Orwell</p>
+                    <p>Borrow Time: 10 days</p>
+                    <p>Price: 3500 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>YS Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=31" class="book-card" data-page="4">
+                    <img src="https://covers.openlibrary.org/w/id/8231759-M.jpg" alt="Book Cover">
+                    <h3>The Great Gatsby</h3>
+                    <p>Author: F. Scott Fitzgerald</p>
+                    <p>Borrow Time: 14 days</p>
+                    <p>Price: 5000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>YS Library</span>
+                    </div>
+                </a>
+                <a href="book-details.html?id=32" class="book-card" data-page="4">
+                    <img src="https://covers.openlibrary.org/w/id/86849-M.jpg" alt="Book Cover">
+                    <h3>Pride and Prejudice</h3>
+                    <p>Author: Jane Austen</p>
+                    <p>Borrow Time: 10 days</p>
+                    <p>Price: 4000 MMK</p>
+                    <div class="user-profile">
+                        <i class="fas fa-book"></i>
+                        <span>YS Library</span>
+                    </div>
+                </a>
+            </div>
+            <div class="pagination" id="pagination">
+                <a href="#" id="prev-page" class="text-gray-500 hover:text-blue-600">< Previous</a>
+                <a href="#" data-page="1" class="pagination-link text-gray-500 hover:text-blue-600 active">1</a>
+                <a href="#" data-page="2" class="pagination-link text-gray-500 hover:text-blue-600">2</a>
+                <a href="#" data-page="3" class="pagination-link text-gray-500 hover:text-blue-600">3</a>
+                <a href="#" data-page="4" class="pagination-link text-gray-500 hover:text-blue-600">4</a>
+                <a href="#" id="next-page" class="text-gray-500 hover:text-blue-600">Next ></a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="home.html">Home</a></li>
+                </ul>
+            </div>
+            <div id="footer-help-support">
+                <h3>Help Center</h3>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Contact</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:support@burmesereader.com">support@burmesereader.com</a></p>
+                    <p><i class="fas fa-phone"></i> <a href="tel:+95123456789">+95 123 456 789</a></p>
+                </div>
+                <div class="social-icons">
+                    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">© 2025 Burmese Readers. All rights reserved.</div>
+    </footer>
+
+    <script>
+        function toggleMode() {
+            document.body.classList.toggle('dark-mode');
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle.checked) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        window.onload = function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('theme-toggle').checked = true;
+            }
+            showPage(1); // Show the first page by default
+        }
+
+        let currentPage = 1;
+        const totalPages = 4;
+
+        function showPage(page) {
+            currentPage = page;
+            const bookCards = document.querySelectorAll('.book-card');
+            const paginationLinks = document.querySelectorAll('.pagination-link');
+
+            // Hide all book cards
+            bookCards.forEach(card => {
+                card.style.display = 'none';
+            });
+
+            // Show book cards for the current page
+            const currentCards = document.querySelectorAll(`.book-card[data-page="${page}"]`);
+            currentCards.forEach(card => {
+                card.style.display = 'flex';
+            });
+
+            // Update pagination links
+            paginationLinks.forEach(link => {
+                link.classList.remove('active');
+                if (parseInt(link.getAttribute('data-page')) === page) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Update Previous/Next buttons
+            document.getElementById('prev-page').style.display = page === 1 ? 'none' : 'inline';
+            document.getElementById('next-page').style.display = page === totalPages ? 'none' : 'inline';
+        }
+
+        // Pagination click event
+        document.querySelectorAll('.pagination-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const page = parseInt(link.getAttribute('data-page'));
+                showPage(page);
+            });
+        });
+
+        document.getElementById('prev-page').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (currentPage > 1) {
+                showPage(currentPage - 1);
+            }
+        });
+
+        document.getElementById('next-page').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (currentPage < totalPages) {
+                showPage(currentPage + 1);
+            }
+        });
+
+        // Swipe functionality for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.querySelector('.library-section').addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.querySelector('.library-section').addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            if (touchEndX < touchStartX - swipeThreshold && currentPage < totalPages) {
+                showPage(currentPage + 1);
+            }
+            if (touchEndX > touchStartX + swipeThreshold && currentPage > 1) {
+                showPage(currentPage - 1);
+            }
+        }
+    </script>
+</body>
+</html>

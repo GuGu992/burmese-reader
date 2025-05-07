@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burmese Reader</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #F8F5F2;
+            color: #3C1518;
+            transition: all 0.3s ease-in;
+        }
+
+        body.dark-mode {
+            background: #1A1A1A;
+            color: #F2F3AE;
+        }
+
+        .navbar {
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            background: #FFFFFF;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease-in;
+        }
+
+        body.dark-mode .navbar {
+            background: #69140E;
+            box-shadow: 0 2px 5px rgba(255, 255, 255, 0.05);
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 40px;
+            color: #A44200;
+        }
+
+        body.dark-mode .logo i {
+            color: #D58936;
+        }
+
+        .logo span {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: #3C1518;
+        }
+
+        body.dark-mode .logo span {
+            color: #F2F3AE;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: #3C1518;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .nav-links a {
+            color: #F2F3AE;
+        }
+
+        .nav-links a:hover {
+            color: #A44200;
+        }
+
+        body.dark-mode .nav-links a:hover {
+            color: #D58936;
+        }
+
+        .nav-links a.active {
+            color: #A44200;
+        }
+
+        body.dark-mode .nav-links a.active {
+            color: #D58936;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .theme-switch {
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            width: 50px;
+            height: 25px;
+        }
+
+        .theme-switch input {
+            display: none;
+        }
+
+        .theme-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #A44200;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .theme-slider {
+            background: #69140E;
+        }
+
+        .theme-slider::before {
+            content: '';
+            position: absolute;
+            width: 21px;
+            height: 21px;
+            background: #FFFFFF;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode .theme-slider::before {
+            background: #F2F3AE;
+            transform: translateX(25px);
+        }
+
+        .theme-switch input:checked + .theme-slider {
+            background: #D58936;
+        }
+
+        body.dark-mode .theme-switch input:checked + .theme-slider {
+            background: #D58936;
+        }
+
+        .theme-switch i {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            transition: opacity 0.3s ease;
+        }
+
+        .theme-switch .sun {
+            left: 5px;
+            color: #A44200;
+            opacity: 1;
+        }
+
+        body.dark-mode .theme-switch .sun {
+            opacity: 0;
+        }
+
+        .theme-switch .moon {
+            right: 5px;
+            color: #D58936;
+            opacity: 0;
+        }
+
+        body.dark-mode .theme-switch .moon {
+            opacity: 1;
+        }
+
+        .nav-actions a {
+            text-decoration: none;
+            font-size: 20px;
+            color: #3C1518;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .nav-actions a {
+            color: #F2F3AE;
+        }
+
+        .nav-actions a:hover {
+            color: #A44200;
+        }
+
+        body.dark-mode .nav-actions a:hover {
+            color: #D58936;
+        }
+
+        .nav-actions .active {
+            color: #A44200;
+        }
+
+        body.dark-mode .nav-actions .active {
+            color: #D58936;
+        }
+
+        .user-profile-section {
+            min-height: 100vh;
+            padding: 120px 20px 80px;
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5_7n1w9JfbxVGwszOncfJvTgBtwuy6vT0QolEv2fVEukWAjhyi2TwXls9R_PyZFkefgI&usqp=CAU') center/cover no-repeat;
+            position: relative;
+        }
+
+        .user-profile-section::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 245, 242, 0.85);
+            transition: all 0.3s ease-in;
+            z-index: -1;
+        }
+
+        body.dark-mode .user-profile-section::before {
+            background: rgba(18, 18, 18, 0.8);
+        }
+
+        .user-profile-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #FFFFFF;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease-in;
+            position: relative;
+            z-index: 1;
+        }
+
+        body.dark-mode .user-profile-container {
+            background: #222222;
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .user-profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            object-fit: cover;
+            border: 4px solid #A44200;
+        }
+
+        body.dark-mode .user-profile-img {
+            border-color: #D58936;
+        }
+
+        .profile-header h2 {
+            font-size: 32px;
+            font-family: 'Playfair Display', serif;
+            color: #3C1518;
+            margin-bottom: 10px;
+        }
+
+        body.dark-mode .profile-header h2 {
+            color: #F2F3AE;
+        }
+
+        .edit-profile {
+            color: #A44200;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .edit-profile {
+            color: #D58936;
+        }
+
+        .edit-profile:hover {
+            color: #D58936;
+        }
+
+        body.dark-mode .edit-profile:hover {
+            color: #F2F3AE;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #69140E;
+        }
+
+        body.dark-mode .tabs {
+            border-color: #A44200;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #69140E;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .tab {
+            color: #A44200;
+        }
+
+        .tab.active {
+            color: #A44200;
+            border-bottom: 2px solid #A44200;
+        }
+
+        body.dark-mode .tab.active {
+            color: #D58936;
+            border-color: #D58936;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .profile-info {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #3C1518;
+        }
+
+        body.dark-mode .info-label {
+            color: #F2F3AE;
+        }
+
+        .info-value {
+            color: #69140E;
+        }
+
+        body.dark-mode .info-value {
+            color: #A44200;
+        }
+
+        .reviews-section {
+            margin-bottom: 20px;
+        }
+
+        .review-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            background: #FFFFFF;
+            padding: 15px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .review-card {
+            background: #222222;
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .review-card img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .stars {
+            color: #A44200;
+            margin: 5px 0;
+        }
+
+        body.dark-mode .stars {
+            color: #D58936;
+        }
+
+        .comment-section {
+            display: flex;
+            gap: 10px;
+        }
+
+        .comment-section input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #A44200;
+            border-radius: 5px;
+            background: #FFFFFF;
+            color: #3C1518;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .comment-section input {
+            background: #333333;
+            border-color: #D58936;
+            color: #F2F3AE;
+        }
+
+        .comment-section input:focus {
+            outline: none;
+            border-color: #D58936;
+            box-shadow: 0 0 5px rgba(213, 137, 54, 0.3);
+        }
+
+        .comment-section button {
+            padding: 10px 20px;
+            background: #A44200;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        body.dark-mode .comment-section button {
+            background: #D58936;
+        }
+
+        .comment-section button:hover {
+            background: #D58936;
+        }
+
+        body.dark-mode .comment-section button:hover {
+            background: #F2F3AE;
+            color: #3C1518;
+        }
+
+        .books-section {
+            margin-bottom: 20px;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .book-card {
+            background: #FFFFFF;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        body.dark-mode .book-card {
+            background: #222222;
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .book-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode .book-card:hover {
+            box-shadow: 0 6px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .book-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .book-card h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #A44200;
+        }
+
+        body.dark-mode .book-card h4 {
+            color: #D58936;
+        }
+
+        .book-card p {
+            font-size: 14px;
+            color: #69140E;
+            margin: 2px 0;
+        }
+
+        body.dark-mode .book-card p {
+            color: #A44200;
+        }
+
+        .upload-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #A44200;
+            color: #FFFFFF;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: background 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        body.dark-mode .upload-btn {
+            background: #D58936;
+        }
+
+        .upload-btn:hover {
+            background: #D58936;
+        }
+
+        body.dark-mode .upload-btn:hover {
+            background: #F2F3AE;
+            color: #3C1518;
+        }
+
+        .upload-form-container {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #F8F5F2;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .upload-form-container {
+            background: #222222;
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .upload-form-container.active {
+            display: block;
+        }
+
+        .upload-form-container h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #A44200;
+            text-align: center;
+        }
+
+        body.dark-mode .upload-form-container h3 {
+            color: #D58936;
+        }
+
+        .upload-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .upload-form input[type="file"] {
+            padding: 10px;
+            border: 1px solid #A44200;
+            border-radius: 5px;
+            font-size: 16px;
+            background: #FFFFFF;
+            color: #3C1518;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .upload-form input[type="file"] {
+            background: #333333;
+            border-color: #D58936;
+            color: #F2F3AE;
+        }
+
+        .upload-form input[type="text"],
+        .upload-form input[type="number"],
+        .upload-form select,
+        .upload-form textarea {
+            padding: 12px;
+            border: 1px solid #A44200;
+            border-radius: 5px;
+            font-size: 16px;
+            background: #FFFFFF;
+            color: #3C1518;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .upload-form input[type="text"],
+        body.dark-mode .upload-form input[type="number"],
+        body.dark-mode .upload-form select,
+        body.dark-mode .upload-form textarea {
+            background: #333333;
+            border-color: #D58936;
+            color: #F2F3AE;
+        }
+
+        .upload-form input:focus,
+        .upload-form select:focus,
+        .upload-form textarea:focus {
+            outline: none;
+            border-color: #D58936;
+            box-shadow: 0 0 5px rgba(213, 137, 54, 0.3);
+        }
+
+        body.dark-mode .upload-form input:focus,
+        body.dark-mode .upload-form select:focus,
+        body.dark-mode .upload-form textarea:focus {
+            border-color: #F2F3AE;
+            box-shadow: 0 0 5px rgba(242, 243, 174, 0.3);
+        }
+
+        .upload-form textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .upload-form button {
+            padding: 12px;
+            background: #A44200;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .upload-form button {
+            background: #D58936;
+        }
+
+        .upload-form button:hover {
+            background: #D58936;
+        }
+
+        body.dark-mode .upload-form button:hover {
+            background: #F2F3AE;
+            color: #3C1518;
+        }
+
+        footer {
+            background: #FFFFFF;
+            padding: 40px 0;
+            transition: all 0.3s ease-in;
+        }
+
+        body.dark-mode footer {
+            background: #1A1A1A;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-content h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #A44200;
+        }
+
+        body.dark-mode .footer-content h3 {
+            color: #F2F3AE;
+        }
+
+        .footer-content ul {
+            list-style: none;
+        }
+
+        .footer-content ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-content ul li a {
+            color: #3C1518;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .footer-content ul li a {
+            color: #F2F3AE;
+        }
+
+        .footer-content ul li a:hover {
+            color: #A44200;
+        }
+
+        body.dark-mode .footer-content ul li a:hover {
+            color: #D58936;
+        }
+
+        .contact-info {
+            margin-bottom: 20px;
+        }
+
+        .contact-info p {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .contact-info a {
+            text-decoration: none;
+            color: #3C1518;
+        }
+
+        body.dark-mode .contact-info a {
+            color: #F2F3AE;
+        }
+
+        .contact-info i {
+            font-size: 16px;
+            color: #A44200;
+        }
+
+        body.dark-mode .contact-info i {
+            color: #D58936;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background: #69140E;
+            border-radius: 50%;
+            font-size: 15px;
+            color: #FFFFFF;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .social-icons a {
+            background: #A44200;
+            color: #FFFFFF;
+        }
+
+        .social-icons a:hover {
+            background: #A44200;
+        }
+
+        body.dark-mode .social-icons a:hover {
+            background: #D58936;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            font-size: 12px;
+            color: #3C1518;
+        }
+
+        body.dark-mode .copyright {
+            color: #F2F3AE;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .nav-actions {
+                flex-direction: row;
+                gap: 20px;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .user-profile-container {
+                padding: 20px;
+            }
+
+            .tabs {
+                flex-direction: column;
+                gap: 10px;
+                border-bottom: none;
+            }
+
+            .tab {
+                padding: 10px;
+                text-align: center;
+            }
+
+            .profile-info {
+                grid-template-columns: 1fr;
+            }
+
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <a href="second-home-page.html">
+                    <i class="fas fa-book"></i>
+                    <span>Burmese Reader</span>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="second-home-page.html">Home</a>
+                <a href="second-library.html">Library</a>
+                <a href="second-upload.html">User Upload</a>
+                <a href="second-about-us.html">About Us</a>
+                <a href="second-contact-us-page.html">Contact Us</a>
+            </div>
+            <div class="nav-actions">
+                <label class="theme-switch">
+                    <input type="checkbox" id="theme-toggle" onchange="toggleMode()">
+                    <span class="theme-slider">
+                        <i class="fas fa-sun sun"></i>
+                        <i class="fas fa-moon moon"></i>
+                    </span>
+                </label>
+                <a href="user-profile.html" class="active" title="User Profile"><i class="fas fa-user"></i></a>
+                <a href="#" title="Notifications"><i class="fas fa-bell"></i></a>
+                <a href="login.html" title="Log Out"><i class="fas fa-sign-out-alt"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="user-profile-section">
+        <div class="user-profile-container">
+            <div class="profile-header">
+                <img src="https://www.pngmart.com/files/23/Profile-PNG-Photo.png" alt="User Profile" class="user-profile-img">
+                <h2>User Name</h2>
+                <a href="#" class="edit-profile">Edit Profile</a>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" data-tab="info">Profile Info</div>
+                <div class="tab" data-tab="reviews">Reviews</div>
+                <div class="tab" data-tab="books">Your Posts</div>
+            </div>
+
+            <div class="tab-content active" id="info">
+                <div class="profile-info">
+                    <div class="info-row">
+                        <span class="info-label">Name:</span>
+                        <span class="info-value">User Name</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Phone No:</span>
+                        <span class="info-value">+95 123 456 789</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value">user@gmail.com</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">City:</span>
+                        <span class="info-value">Yangon</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Address:</span>
+                        <span class="info-value">123 Main St</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="reviews">
+                <div class="reviews-section">
+                    <div class="review-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIf4R5qPKHPNMyAqV-FjS_OTBB8pfUV29Phg&s">
+                        <div>
+                            <p>Kaung That</p>
+                            <span class="stars">★★★★☆</span>
+                            <p>"Lorem ipsum dolor sit amet et delectus accusantium aut cumque."</p>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIf4R5qPKHPNMyAqV-FjS_OTBB8pfUV29Phg&s">
+                        <div>
+                            <p>Gu Gu</p>
+                            <span class="stars">★★★★★</span>
+                            <p>"Lorem ipsum dolor sit amet et delectus accusantium aut cumque."</p>
+                        </div>
+                    </div>
+                    <div class="comment-section">
+                        <input type="text" placeholder="Add a comment...">
+                        <button>Send</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="books">
+                <div class="books-section" id="upload-section">
+                    <div class="books-grid">
+                        <div class="book-card">
+                            <img src="https://i.ebayimg.com/images/g/DxcAAOSw16ll09zS/s-l960.jpg" alt="Book">
+                            <h4>The Mamba Mentality: How I Play by Bryant, Kobe</h4>
+                            <p>Condition: Very Good</p>
+                            <p>10000 kyat</p>
+                            <p>Borrow time: 3 weeks</p>
+                        </div>
+                        <div class="book-card">
+                            <img src="https://i.ebayimg.com/images/g/4MoAAOSw~rpZOMwM/s-l960.jpg" alt="Book">
+                            <h4>The Keys to Success by Jim Rohn</h4>
+                            <p>Condition: Very Good</p>
+                            <p>Borrow time: 3 weeks</p>
+                        </div>
+                        <div class="book-card">
+                            <img src="https://i.ebayimg.com/images/g/lEgAAOSwLqxnTFxn/s-l1600.jpg" alt="Book">
+                            <h4>How I Learned To Sing</h4>
+                            <p>Condition: Good</p>
+                            <p>Borrow time: 3 weeks</p>
+                        </div>
+                    </div>
+                    <a class="upload-btn" onclick="toggleUploadForm()">Upload</a>
+                    <div class="upload-form-container" id="upload-form">
+                        <h3>Upload a Book</h3>
+                        <div class="upload-form">
+                            <input type="file" accept="image/*" required>
+                            <input type="text" placeholder="Book Name" required>
+                            <input type="text" placeholder="Author Name" required>
+                            <select required>
+                                <option value="" disabled selected>Select Borrow Time</option>
+                                <option value="1">1 week</option>
+                                <option value="2">2 weeks</option>
+                                <option value="3">3 weeks</option>
+                                <option value="4">4 weeks</option>
+                            </select>
+                            <input type="text" placeholder="Location" required>
+                            <input type="number" placeholder="Price (Kyat)" min="0" required>
+                            <textarea placeholder="Description" required></textarea>
+                            <button onclick="alert('Uploading book...'); window.location.href='second-upload.html'">Upload Book</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="second-home-page.html#library-section">How It Works</a></li>
+                    <li><a href="second-home-page.html#hero-section">Home</a></li>
+                    <li><a href="second-about-us.html">About Us</a></li>
+                </ul>
+            </div>
+            <div id="footer-help-support">
+                <h3>Help Center</h3>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Contact</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:support@burmesereader.com">support@burmesereader.com</a></p>
+                    <p><i class="fas fa-phone"></i> <a href="tel:+95123456789">+95 123 456 789</a></p>
+                </div>
+                <div class="social-icons">
+                    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">© 2025 Burmese Readers. All rights reserved.</div>
+    </footer>
+
+    <script>
+        function toggleMode() {
+            document.body.classList.toggle('dark-mode');
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle.checked) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        function toggleUploadForm() {
+            const form = document.getElementById('upload-form');
+            form.classList.toggle('active');
+        }
+
+        window.onload = function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('theme-toggle').checked = true;
+            }
+
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+
+                    tab.classList.add('active');
+                    document.getElementById(tab.getAttribute('data-tab')).classList.add('active');
+                });
+            });
+
+            const bookCards = document.querySelectorAll('.book-card');
+            bookCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    alert('Book card clicked! You can replace this with navigation or other functionality.');
+                });
+            });
+        }
+    </script>
+</body>
+</html>

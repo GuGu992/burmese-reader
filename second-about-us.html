@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Burmese Reader</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #F8F5F2;
+            color: #3C1518;
+            transition: all 0.3s ease-in;
+        }
+
+        body.dark-mode {
+            background: #1A1A1A;
+            color: #F2F3AE;
+        }
+
+        p {
+            color: #69140E;
+        }
+
+        body.dark-mode p {
+            color: #D58936;
+        }
+
+        .navbar {
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            background: #FFFFFF;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease-in;
+        }
+
+        body.dark-mode .navbar {
+            background: #69140E;
+            box-shadow: 0 2px 5px rgba(255, 255, 255, 0.05);
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 40px;
+            color: #A44200;
+        }
+
+        body.dark-mode .logo i {
+            color: #D58936;
+        }
+
+        .logo span {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 600;
+            color: #3C1518;
+        }
+
+        body.dark-mode .logo span {
+            color: #F2F3AE;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: #3C1518;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .nav-links a {
+            color: #F2F3AE;
+        }
+
+        .nav-links a:hover {
+            color: #A44200;
+        }
+
+        body.dark-mode .nav-links a:hover {
+            color: #D58936;
+        }
+
+        .nav-links a.active {
+            color: #A44200;
+        }
+
+        body.dark-mode .nav-links a.active {
+            color: #D58936;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .theme-switch {
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            width: 50px;
+            height: 25px;
+        }
+
+        .theme-switch input {
+            display: none;
+        }
+
+        .theme-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #A44200;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .theme-slider {
+            background: #69140E;
+        }
+
+        .theme-slider::before {
+            content: '';
+            position: absolute;
+            width: 21px;
+            height: 21px;
+            background: #FFFFFF;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode .theme-slider::before {
+            background: #F2F3AE;
+            transform: translateX(25px);
+        }
+
+        .theme-switch input:checked + .theme-slider {
+            background: #D58936;
+        }
+
+        body.dark-mode .theme-switch input:checked + .theme-slider {
+            background: #D58936;
+        }
+
+        .theme-switch i {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            transition: opacity 0.3s ease;
+        }
+
+        .theme-switch .sun {
+            left: 5px;
+            color: #A44200;
+            opacity: 1;
+        }
+
+        body.dark-mode .theme-switch .sun {
+            opacity: 0;
+        }
+
+        .theme-switch .moon {
+            right: 5px;
+            color: #D58936;
+            opacity: 0;
+        }
+
+        body.dark-mode .theme-switch .moon {
+            opacity: 1;
+        }
+
+        .nav-actions a {
+            text-decoration: none;
+            font-size: 20px;
+            color: #3C1518;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .nav-actions a {
+            color: #F2F3AE;
+        }
+
+        .nav-actions a:hover {
+            color: #A44200;
+        }
+
+        body.dark-mode .nav-actions a:hover {
+            color: #D58936;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5_7n1w9JfbxVGwszOncfJvTgBtwuy6vT0QolEv2fVEukWAjhyi2TwXls9R_PyZFkefgI&usqp=CAU') center/cover no-repeat;
+            position: relative;
+            padding-top: 80px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 245, 242, 0.7);
+            transition: all 0.3s ease-in;
+        }
+
+        body.dark-mode .hero::before {
+            background: rgba(26, 26, 26, 0.8);
+        }
+
+        .our-history-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .our-history-image {
+            flex: 1;
+            margin-right: 40px;
+        }
+
+        .our-history-image img {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        body.dark-mode .our-history-image img {
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.05);
+        }
+
+        .our-history-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .our-history-text h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            color: #A44200;
+        }
+
+        body.dark-mode .our-history-text h2 {
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+            color: #F2F3AE;
+        }
+
+        .our-history-text p {
+            font-size: 18px;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .our-history-text p {
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.2);
+        }
+
+        .objectives-section {
+            height: auto;
+            min-height: 50vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: center;
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5_7n1w9JfbxVGwszOncfJvTgBtwuy6vT0QolEv2fVEukWAjhyi2TwXls9R_PyZFkefgI&usqp=CAU') center/cover no-repeat;
+            position: relative;
+            padding-top: 80px;
+            padding-bottom: 50px;
+        }
+
+        .objectives-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 245, 242, 0.7);
+            transition: all 0.3s ease-in;
+        }
+
+        body.dark-mode .objectives-section::before {
+            background: rgba(26, 26, 26, 0.8);
+        }
+
+        .objectives {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 1200px;
+            padding: 0 20px;
+            overflow-x: hidden;
+        }
+
+        .objective-card {
+            background: #FFFFFF;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease-in;
+            flex: 0 0 auto;
+            width: 250px;
+            min-height: 300px;
+        }
+
+        body.dark-mode .objective-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05);
+        }
+
+        .objective-card i {
+            font-size: 40px;
+            color: #A44200;
+            margin-bottom: 20px;
+        }
+
+        body.dark-mode .objective-card i {
+            color: #D58936;
+        }
+
+        .objective-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: #3C1518;
+        }
+
+        body.dark-mode .objective-card h3 {
+            color: #F2F3AE;
+        }
+
+        .why-use-us {
+            height: auto;
+            min-height: 50vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: center;
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5_7n1w9JfbxVGwszOncfJvTgBtwuy6vT0QolEv2fVEukWAjhyi2TwXls9R_PyZFkefgI&usqp=CAU') center/cover no-repeat;
+            position: relative;
+            padding-top: 80px;
+            padding-bottom: 50px;
+        }
+
+        .why-use-us::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 245, 242, 0.7);
+            transition: all 0.3s ease-in;
+        }
+
+        body.dark-mode .why-use-us::before {
+            background: rgba(26, 26, 26, 0.8);
+        }
+
+        .why-use-us h2 {
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            color: #A44200;
+        }
+
+        body.dark-mode .why-use-us h2 {
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+        }
+
+        .why-use-us p {
+            font-size: 18px;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonials {
+            min-height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: center;
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5_7n1w9JfbxVGwszOncfJvTgBtwuy6vT0QolEv2fVEukWAjhyi2TwXls9R_PyZFkefgI&usqp=CAU') center/cover no-repeat;
+            position: relative;
+            padding-top: 80px;
+            padding-bottom: 20px;
+        }
+
+        .testimonials::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 245, 242, 0.7);
+            transition: all 0.3s ease-in;
+        }
+
+        body.dark-mode .testimonials::before {
+            background: rgba(26, 26, 26, 0.8);
+        }
+
+        .testimonials h2 {
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            color: #A44200;
+        }
+
+        body.dark-mode .testimonials h2 {
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+        }
+
+        .testimonial-cards {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: center;
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 1200px;
+            padding: 0 20px;
+            overflow-x: hidden;
+        }
+
+        .testimonial-card {
+            background: #FFFFFF;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease-in;
+            flex: 0 0 auto;
+            width: 300px;
+            min-height: 350px;
+        }
+
+        body.dark-mode .testimonial-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05);
+        }
+
+        .testimonial-card img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease-in;
+        }
+
+        body.dark-mode .testimonial-card img {
+            border: 2px solid #F0F0F0;
+            filter: brightness(1.1);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+        }
+
+        .testimonial-card p {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .testimonial-card .stars {
+            margin-bottom: 10px;
+        }
+
+        .testimonial-card .stars i {
+            color: #A44200;
+            font-size: 16px;
+        }
+
+        body.dark-mode .testimonial-card .stars i {
+            color: #D58936;
+        }
+
+        .testimonial-card h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: #A44200;
+        }
+
+        body.dark-mode .testimonial-card h4 {
+            color: #D58936;
+        }
+
+        footer {
+            background: #FFFFFF;
+            padding: 40px 0;
+            transition: all 0.3s ease-in;
+        }
+
+        body.dark-mode footer {
+            background: #1A1A1A;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #A44200;
+        }
+
+        body.dark-mode .footer-content h3 {
+            color: #F2F3AE;
+        }
+
+        .footer-content ul {
+            list-style: none;
+        }
+
+        .footer-content ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-content ul li a {
+            color: #3C1518;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .footer-content ul li a {
+            color: #F2F3AE;
+        }
+
+        .footer-content ul li a:hover {
+            color: #A44200;
+        }
+
+        body.dark-mode .footer-content ul li a:hover {
+            color: #D58936;
+        }
+
+        .contact-info {
+            margin-bottom: 20px;
+        }
+
+        .contact-info p {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .contact-info a {
+            text-decoration: none;
+            color: #3C1518;
+        }
+
+        body.dark-mode .contact-info a {
+            color: #F2F3AE;
+        }
+
+        .contact-info i {
+            font-size: 16px;
+            color: #A44200;
+        }
+
+        body.dark-mode .contact-info i {
+            color: #D58936;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background: #69140E;
+            border-radius: 50%;
+            font-size: 15px;
+            color: #FFFFFF;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .social-icons a {
+            background: #A44200;
+        }
+
+        .social-icons a:hover {
+            background: #A44200;
+        }
+
+        body.dark-mode .social-icons a:hover {
+            background: #D58936;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            font-size: 12px;
+            color: #3C1518;
+        }
+
+        body.dark-mode .copyright {
+            color: #F2F3AE;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .nav-actions {
+                flex-direction: row;
+                gap: 20px;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .our-history-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .our-history-image {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .our-history-text {
+                text-align: center;
+            }
+
+            .our-history-text h2 {
+                font-size: 28px;
+            }
+
+            .our-history-text p {
+                font-size: 14px;
+            }
+
+            .objectives-section h2 {
+                font-size: 28px;
+            }
+
+            .objectives {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .objective-card {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .why-use-us h2 {
+                font-size: 28px;
+            }
+
+            .why-use-us p {
+                font-size: 14px;
+            }
+
+            .testimonials h2 {
+                font-size: 28px;
+            }
+
+            .testimonial-cards {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .testimonial-card {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <a href="second-home-page.html">
+                    <i class="fas fa-book"></i>
+                    <span>Burmese Reader</span>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="second-home-page.html">Home</a>
+                <a href="second-library.html">Library</a>
+                <a href="second-upload.html">User Upload</a>
+                <a href="second-about-us.html" class="active">About Us</a>
+                <a href="second-contact-us-page.html">Contact Us</a>
+            </div>
+            <div class="nav-actions">
+                <label class="theme-switch">
+                    <input type="checkbox" id="theme-toggle" onchange="toggleMode()">
+                    <span class="theme-slider">
+                        <i class="fas fa-sun sun"></i>
+                        <i class="fas fa-moon moon"></i>
+                    </span>
+                </label>
+                <a href="user-profile.html" title="User Profile"><i class="fas fa-user"></i></a>
+                <a href="#" title="Notifications"><i class="fas fa-bell"></i></a>
+                <a href="login.html" title="Log Out"><i class="fas fa-sign-out-alt"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero" id="our-history-section">
+        <div class="our-history-content">
+            <div class="our-history-image">
+                <img src="https://img.freepik.com/free-photo/creative-composition-world-book-day_23-2148883765.jpg">
+            </div>
+            <div class="our-history-text">
+                <h2>Our History</h2>
+                <p>Burmese Reader was born from a deep-rooted passion for connecting book lovers across Myanmar, fostering a sense of community through the shared love of literature. Our journey began with a simple yet powerful idea: to create a platform where people can share, borrow, and discover books while building meaningful connections within a vibrant community. What started as a small initiative has grown into a thriving network, thanks to the enthusiasm and support of readers nationwide. Today, we’re proud to support thousands of readers in their literary adventures, helping them explore new stories, exchange ideas, and celebrate the joy of reading together.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="objectives-section">
+        <div class="objectives">
+            <div class="objective-card">
+                <i class="fas fa-lightbulb"></i>
+                <h3>Aim</h3>
+                <p>To make literature accessible to all, fostering a love for reading across Myanmar and beyond.</p>
+            </div>
+            <div class="objective-card">
+                <i class="fas fa-bullseye"></i>
+                <h3>Mission</h3>
+                <p>To connect readers, support local authors, and build a thriving community of book lovers.</p>
+            </div>
+            <div class="objective-card">
+                <i class="fas fa-graduation-cap"></i>
+                <h3>Our Goal</h3>
+                <p>To create a platform where every book finds a new reader and every reader finds a new story.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="why-use-us">
+        <h2>Why Use Us</h2>
+        <p>Burmese Reader offers a unique platform for book lovers to connect, share, and discover new reads. Our community-driven approach ensures that you can easily borrow books from others, lend your own, or even rent from local bookshops. We provide a seamless experience with a user-friendly interface, diverse book collections, and opportunities to join book clubs and events.</p>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <h2>User Reviews</h2>
+            <div class="testimonial-cards">
+                <div class="testimonial-card">
+                    <img src="https://i.scdn.co/image/ab6761610000e5ebba50ca67ffc3097f6ea1710a" alt="User">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>Burmese Reader made it so easy to find new books in my town!</p>
+                    <h4>User Name</h4>
+                </div>
+                <div class="testimonial-card">
+                    <img src="https://imageio.forbes.com/specials-images/imageserve/5ed670179e384f0007b7db8f/0x0.jpg?format=jpg&crop=2610,2609,x1032,y186,safe&height=416&width=416&fit=bounds" alt="User">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>I love connecting with other book lovers through the platform.</p>
+                    <h4>User Name</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="second-about-us.html">About Us</a></li>
+                    <li><a href="second-home-page.html">Home</a></li>
+                </ul>
+            </div>
+            <div id="footer-help-support">
+                <h3>Help Center</h3>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Contact</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:support@burmesereader.com">support@burmesereader.com</a></p>
+                    <p><i class="fas fa-phone"></i> <a href="tel:+95123456789">+95 123 456 789</a></p>
+                </div>
+                <div class="social-icons">
+                    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">© 2025 Burmese Readers. All rights reserved.</div>
+    </footer>
+
+    <script>
+        function toggleMode() {
+            document.body.classList.toggle('dark-mode');
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle.checked) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        window.onload = function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('theme-toggle').checked = true;
+            }
+        }
+    </script>
+</body>
+</html>

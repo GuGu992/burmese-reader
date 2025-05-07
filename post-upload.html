@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Book - Burmese Reader</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5_7n1w9JfbxVGwszOncfJvTgBtwuy6vT0QolEv2fVEukWAjhyi2TwXls9R_PyZFkefgI&usqp=CAU') center/cover no-repeat;
+            color: #2A2A2A;
+            transition: all 0.3s ease-in;
+        }
+
+        body.dark-mode {
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5_7n1w9JfbxVGwszOncfJvTgBtwuy6vT0QolEv2fVEukWAjhyi2TwXls9R_PyZFkefgI&usqp=CAU') center/cover no-repeat;
+            color: #EAEAEA;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(253, 247, 232, 0.7);
+            transition: all 0.3s ease-in;
+            z-index: -1;
+        }
+
+        body.dark-mode::before {
+            background: rgba(18, 18, 18, 0.8);
+        }
+
+        .navbar {
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            background: #FFFFFF;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in;
+        }
+
+        body.dark-mode .navbar {
+            background: #1E1E1E;
+            box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 40px;
+            color: #F97316;
+        }
+
+        body.dark-mode .logo i {
+            color: #FB923C;
+        }
+
+        .logo span {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: #2A2A2A;
+        }
+
+        body.dark-mode .logo span {
+            color: #EAEAEA;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: #2A2A2A;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .nav-links a {
+            color: #EAEAEA;
+        }
+
+        .nav-links a:hover {
+            color: #F97316;
+        }
+
+        body.dark-mode .nav-links a:hover {
+            color: #FB923C;
+        }
+
+        .nav-links a.active {
+            color: #F97316;
+        }
+
+        body.dark-mode .nav-links a.active {
+            color: #FB923C;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .theme-switch {
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            width: 50px;
+            height: 25px;
+        }
+
+        .theme-switch input {
+            display: none;
+        }
+
+        .theme-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #6B7280;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .theme-slider {
+            background: #4B5563;
+        }
+
+        .theme-slider::before {
+            content: '';
+            position: absolute;
+            width: 21px;
+            height: 21px;
+            background: #FFFFFF;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode .theme-slider::before {
+            background: #EAEAEA;
+            transform: translateX(25px);
+        }
+
+        .theme-switch input:checked + .theme-slider {
+            background: #F97316;
+        }
+
+        body.dark-mode .theme-switch input:checked + .theme-slider {
+            background: #FB923C;
+        }
+
+        .theme-switch i {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            transition: opacity 0.3s ease;
+        }
+
+        .theme-switch .sun {
+            left: 5px;
+            color: #F97316;
+            opacity: 1;
+        }
+
+        body.dark-mode .theme-switch .sun {
+            opacity: 0;
+        }
+
+        .theme-switch .moon {
+            right: 5px;
+            color: #FB923C;
+            opacity: 0;
+        }
+
+        body.dark-mode .theme-switch .moon {
+            opacity: 1;
+        }
+
+        .nav-actions a {
+            text-decoration: none;
+            font-size: 20px;
+            color: #2A2A2A;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .nav-actions a {
+            color: #EAEAEA;
+        }
+
+        .nav-actions a:hover {
+            color: #F97316;
+        }
+
+        body.dark-mode .nav-actions a:hover {
+            color: #FB923C;
+        }
+
+        .upload-section {
+            min-height: 100vh;
+            padding: 120px 20px 80px;
+            background: transparent;
+            position: relative;
+        }
+
+        .upload-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #FFFFFF;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in;
+            position: relative;
+            z-index: 1;
+        }
+
+        body.dark-mode .upload-container {
+            background: #222222;
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+        }
+
+        .upload-container h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            font-family: 'Playfair Display', serif;
+            color: #F97316;
+            text-align: center;
+        }
+
+        body.dark-mode .upload-container h2 {
+            color: #FB923C;
+        }
+
+        .upload-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .upload-form input[type="file"] {
+            padding: 10px;
+            border: 1px solid #D1D5DB;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .upload-form input[type="text"],
+        .upload-form input[type="number"],
+        .upload-form select,
+        .upload-form textarea {
+            padding: 12px;
+            border: 1px solid #D1D5DB;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .upload-form input[type="text"],
+        body.dark-mode .upload-form input[type="number"],
+        body.dark-mode .upload-form select,
+        body.dark-mode .upload-form textarea {
+            background: #333333;
+            border-color: #4B5563;
+            color: #EAEAEA;
+        }
+
+        .upload-form input:focus,
+        .upload-form select:focus,
+        .upload-form textarea:focus {
+            outline: none;
+            border-color: #F97316;
+            box-shadow: 0 0 5px rgba(249, 115, 22, 0.3);
+        }
+
+        body.dark-mode .upload-form input:focus,
+        body.dark-mode .upload-form select:focus,
+        body.dark-mode .upload-form textarea:focus {
+            border-color: #FB923C;
+            box-shadow: 0 0 5px rgba(251, 146, 60, 0.3);
+        }
+
+        .upload-form textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .upload-form button {
+            padding: 12px;
+            background: #F97316;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .upload-form button {
+            background: #FB923C;
+        }
+
+        .upload-form button:hover {
+            background: #E96114;
+        }
+
+        body.dark-mode .upload-form button:hover {
+            background: #F98030;
+        }
+
+        footer {
+            background: #FFFFFF;
+            padding: 40px 0;
+            transition: all 0.3s ease-in;
+        }
+
+        body.dark-mode footer {
+            background: #121212;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-content h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .footer-content ul {
+            list-style: none;
+        }
+
+        .footer-content ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-content ul li a {
+            color: #2A2A2A;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .footer-content ul li a {
+            color: #EAEAEA;
+        }
+
+        .footer-content ul li a:hover {
+            color: #F97316;
+        }
+
+        body.dark-mode .footer-content ul li a:hover {
+            color: #FB923C;
+        }
+
+        .contact-info {
+            margin-bottom: 20px;
+        }
+
+        .contact-info p {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .contact-info a {
+            text-decoration: none;
+            color: #2A2A2A;
+        }
+
+        body.dark-mode .contact-info a {
+            color: #EAEAEA;
+        }
+
+        .contact-info i {
+            font-size: 16px;
+            color: #F97316;
+        }
+
+        body.dark-mode .contact-info i {
+            color: #FB923C;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background: #A0A0A0;
+            border-radius: 50%;
+            font-size: 15px;
+            color: #FFFFFF;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .social-icons a {
+            background: #A0A0A0;
+            color: #FFFFFF;
+        }
+
+        .social-icons a:hover {
+            background: #F97316;
+        }
+
+        body.dark-mode .social-icons a:hover {
+            background: #FB923C;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            font-size: 12px;
+            color: #2A2A2A;
+        }
+
+        body.dark-mode .copyright {
+            color: #EAEAEA;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .nav-actions {
+                flex-direction: row;
+                gap: 20px;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .upload-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <a href="second-home-page.html">
+                    <i class="fas fa-book"></i>
+                    <span>Burmese Reader</span>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="second-home-page.html">Home</a>
+                <a href="second-library.html">Library</a>
+                <a href="second-upload.html" class="active">User Upload</a>
+                <a href="second-about-us.html">About Us</a>
+                <a href="second-contact-us-page.html">Contact Us</a>
+            </div>
+            <div class="nav-actions">
+                <label class="theme-switch">
+                    <input type="checkbox" id="theme-toggle" onchange="toggleMode()">
+                    <span class="theme-slider">
+                        <i class="fas fa-sun sun"></i>
+                        <i class="fas fa-moon moon"></i>
+                    </span>
+                </label>
+                <a href="user-profile.html" title="User Profile"><i class="fas fa-user"></i></a>
+                <a href="#" title="Notifications"><i class="fas fa-bell"></i></a>
+                <a href="login.html" title="Log Out"><i class="fas fa-sign-out-alt"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="upload-section">
+        <div class="upload-container">
+            <h2>Upload a Book</h2>
+            <div class="upload-form">
+                <input type="file" accept="image/*" required>
+                <input type="text" placeholder="Book Name" required>
+                <input type="text" placeholder="Author Name" required>
+                <select required>
+                    <option value="" disabled selected>Select Borrow Time</option>
+                    <option value="1">1 week</option>
+                    <option value="2">2 weeks</option>
+                    <option value="3">3 weeks</option>
+                    <option value="4">4 weeks</option>
+                </select>
+                <input type="text" placeholder="Location" required>
+                <input type="number" placeholder="Price (Kyat)" min="0" required>
+                <textarea placeholder="Description" required></textarea>
+                <button onclick="alert('Book uploaded successfully!');">Upload Book</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="second-home-page.html#library-section">How It Works</a></li>
+                    <li><a href="second-home-page.html#hero-section">Home</a></li>
+                    <li><a href="second-about-us.html">About Us</a></li>
+                </ul>
+            </div>
+            <div id="footer-help-support">
+                <h3>Help Center</h3>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="second-contact-us-page.html">Contact Us</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Contact</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:support@burmesereader.com">support@burmesereader.com</a></p>
+                    <p><i class="fas fa-phone"></i> <a href="tel:+95123456789">+95 123 456 789</a></p>
+                </div>
+                <div class="social-icons">
+                    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">© 2025 Burmese Readers. All rights reserved.</div>
+    </footer>
+
+    <script>
+        function toggleMode() {
+            document.body.classList.toggle('dark-mode');
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle.checked) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        window.onload = function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('theme-toggle').checked = true;
+            }
+        }
+    </script>
+</body>
+</html>
