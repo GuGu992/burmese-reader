@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notifications - Burmese Reader</title>
+    <title>Terms of Service - Burmese Reader</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+    <link rel="stylesheet" href="./animation.css">
     <style>
         * {
             margin: 0;
@@ -17,22 +17,30 @@
         }
 
         body {
-            background: #F8F5F2;
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5_7n1w9JfbxVGwszOncfJvTgBtwuy6vT0QolEv2fVEukWAjhyi2TwXls9R_PyZFkefgI&usqp=CAU') center/cover no-repeat;
             color: #3C1518;
             transition: all 0.3s ease-in;
         }
 
         body.dark-mode {
-            background: #1A1A1A;
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5_7n1w9JfbxVGwszOncfJvTgBtwuy6vT0QolEv2fVEukWAjhyi2TwXls9R_PyZFkefgI&usqp=CAU') center/cover no-repeat;
             color: #F2F3AE;
         }
 
-        p {
-            color: #69140E;
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(248, 245, 242, 0.7), rgba(164, 66, 0, 0.1));
+            transition: all 0.3s ease-in;
+            z-index: -1;
         }
 
-        body.dark-mode p {
-            color: #D58936;
+        body.dark-mode::before {
+            background: linear-gradient(135deg, rgba(18, 18, 18, 0.8), rgba(213, 137, 54, 0.1));
         }
 
         .navbar {
@@ -59,6 +67,7 @@
             align-items: center;
             gap: 30px;
         }
+
         .logo {
             display: flex;
             align-items: center;
@@ -83,7 +92,7 @@
 
         .logo span {
             font-family: 'Playfair Display', serif;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 600;
             color: #3C1518;
         }
@@ -101,7 +110,6 @@
         }
 
         .nav-links a {
-       
             color: #3C1518;
             text-decoration: none;
             font-weight: 500;
@@ -119,35 +127,16 @@
         body.dark-mode .nav-links a:hover {
             color: #D58936;
         }
-        .nav-actions a {
-            text-decoration: none;
-            font-size: 20px;
-            color: #3C1518;
-            transition: color 0.3s ease;
-        }
 
-        body.dark-mode .nav-actions a {
-            color: #F2F3AE;
-        }
-
-        .nav-actions a:hover {
+        .nav-links a.active {
             color: #A44200;
         }
 
-        body.dark-mode .nav-actions a:hover {
-            color: #D58936;
-        }
-
-        .nav-actions .active {
-            color: #A44200;
-        }
-
-        body.dark-mode .nav-actions .active {
+        body.dark-mode .nav-links a.active {
             color: #D58936;
         }
 
         .nav-actions {
-            font-size: 20px;
             display: flex;
             align-items: center;
             gap: 15px;
@@ -178,7 +167,7 @@
         }
 
         body.dark-mode .theme-slider {
-            background: #69140E;
+            background: #221e1d;
         }
 
         .theme-slider::before {
@@ -235,178 +224,139 @@
             opacity: 1;
         }
 
-        .nav-btn {
-            display: inline-block;
-            padding: 8px 16px;
+        .nav-actions a {
             text-decoration: none;
-            font-weight: 500;
-            border-radius: 20px;
-            transition: all 0.3s ease, transform 0.2s ease;
+            font-size: 20px;
+            color: #3C1518;
+            transition: color 0.3s ease;
         }
 
-        .nav-btn.register-btn {
-            background: #A44200;
-            color: #FFFFFF;
+        body.dark-mode .nav-actions a {
+            color: #F2F3AE;
         }
 
-        body.dark-mode .nav-btn.register-btn {
-            background: #D58936;
-        }
-
-        .nav-btn.login-btn {
-            background: #69140E;
-            color: #FFFFFF;
-        }
-
-        body.dark-mode .nav-btn.login-btn {
-            background: #A44200;
-        }
-
-        .nav-btn:hover {
-            transform: scale(1.05);
-        }
-
-        .notifications-section {
-            height: auto;
-            padding: 120px 20px 20px;
-            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5_7n1w9JfbxVGwszOncfJvTgBtwuy6vT0QolEv2fVEukWAjhyi2TwXls9R_PyZFkefgI&usqp=CAU') center/cover no-repeat;
-            position: relative;
-        }
-
-        .notifications-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(248, 245, 242, 0.7);
-            transition: all 0.3s ease-in;
-        }
-
-        body.dark-mode .notifications-section::before {
-            background: rgba(26, 26, 26, 0.8);
-        }
-        .notification-list {
-            max-height: 600px;
-            overflow-x: hidden;
-            padding-right: 10px; /* Optional: to prevent scrollbar overlap */
-            
-            border-radius: 8px;
-            overflow-y: auto;
-        }
-
-        .notification-list::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .notification-list::-webkit-scrollbar-thumb {
-            background-color: #888;
-            border-radius: 4px;
-        }
-
-.notification-list::-webkit-scrollbar-thumb:hover {
-  background-color: #555;
-}
-
-        .notifications-container {
-            max-width: 1200px;
-            padding-bottom: 100px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        .notifications-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .notifications-header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 40px;
+        .nav-actions a:hover {
             color: #A44200;
         }
 
-        body.dark-mode .notifications-header h1 {
+        body.dark-mode .nav-actions a:hover {
             color: #D58936;
         }
 
-        .clear-btn {
-            padding: 8px 16px;
-            background: #A44200;
-            color: #FFFFFF;
-            border: none;
-            border-radius: 20px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease, transform 0.2s ease;
+        .nav-actions .active {
+            color: #A44200;
         }
 
-        body.dark-mode .clear-btn {
-            background: #D58936;
+        body.dark-mode .nav-actions .active {
+            color: #D58936;
         }
 
-        .clear-btn:hover {
-            background: #69140E;
-            transform: scale(1.05);
+        .terms-section {
+            min-height: 100vh;
+            padding: 120px 20px 80px;
+            background: transparent;
+            position: relative;
         }
 
-        body.dark-mode .clear-btn:hover {
-            background: #A44200;
-        }
-
-        .notification-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .notification-card {
+        .terms-container {
+            max-width: 1200px;
+            margin: 0 auto;
             background: #FFFFFF;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        body.dark-mode .terms-container {
+            background: #222222;
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+        }
+
+        .terms-container h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            font-family: 'Playfair Display', serif;
+            color: #A44200;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        body.dark-mode .terms-container h2 {
+            color: #D58936;
+        }
+
+        .terms-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .terms-card {
+            background: rgba(255, 255, 255, 0.9);
             padding: 20px;
+            margin-bottom: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
-            display: flex;
-            align-items: center;
-            gap: 15px;
             transition: all 0.3s ease;
         }
 
-        body.dark-mode .notification-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05);
+        body.dark-mode .terms-card {
+            background: rgba(34, 34, 34, 0.9);
         }
 
-        .notification-card i {
+        .terms-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode .terms-card:hover {
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .terms-content h3 {
             font-size: 24px;
+            margin-bottom: 15px;
             color: #A44200;
+            border-bottom: 2px solid #A44200;
+            padding-bottom: 5px;
+            display: inline-block;
         }
 
-        body.dark-mode .notification-card i {
+        body.dark-mode .terms-content h3 {
+            color: #D58936;
+            border-bottom: 2px solid #D58936;
+        }
+
+        .terms-content p {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #3C1518;
+            text-align: justify;
+        }
+
+        body.dark-mode .terms-content p {
+            color: #F2F3AE;
+        }
+
+        .terms-content a {
+            color: #A44200;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .terms-content a {
             color: #D58936;
         }
 
-        .notification-content {
-            flex: 1;
+        .terms-content a:hover {
+            color: #D58936;
         }
 
-        .notification-content p {
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
-
-        .notification-content .timestamp {
-            font-size: 14px;
-            color: #3C1518;
-            font-weight: 300;
-        }
-
-        body.dark-mode .notification-content .timestamp {
+        body.dark-mode .terms-content a:hover {
             color: #F2F3AE;
         }
 
@@ -466,60 +416,34 @@
             color: #D58936;
         }
 
-        .contact-info {
-            margin-bottom: 20px;
-        }
-
-        .contact-info p {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-
-        .contact-info a {
-            text-decoration: none;
-            color: #3C1518;
-        }
-
-        body.dark-mode .contact-info a {
-            color: #F2F3AE;
-        }
-
-        .contact-info i {
-            font-size: 16px;
-            color: #A44200;
-        }
-
-        body.dark-mode .contact-info i {
-            color: #D58936;
-        }
-
         .social-icons {
             display: flex;
-            gap: 10px;
+            gap: 15px;
         }
 
         .social-icons a {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 30px;
-            height: 30px;
-            background: #69140E;
+            width: 40px;
+            height: 40px;
+            background: #221e1d;
             border-radius: 50%;
-            font-size: 15px;
+            font-size: 18px;
             color: #FFFFFF;
             text-decoration: none;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         body.dark-mode .social-icons a {
             background: #A44200;
+            color: #FFFFFF;
         }
 
         .social-icons a:hover {
             background: #A44200;
+            transform: scale(1.1);
         }
 
         body.dark-mode .social-icons a:hover {
@@ -529,8 +453,9 @@
         .copyright {
             text-align: center;
             padding-top: 20px;
-            font-size: 12px;
+            font-size: 14px;
             color: #3C1518;
+            font-weight: 500;
         }
 
         body.dark-mode .copyright {
@@ -551,55 +476,21 @@
 
             .nav-actions {
                 flex-direction: row;
-                gap: 10px;
+                gap: 20px;
                 width: 100%;
                 justify-content: center;
             }
 
-            .nav-btn {
-                padding: 6px 12px;
-                font-size: 14px;
+            .terms-container {
+                padding: 20px;
             }
 
-            .notifications-header {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
+            .terms-content {
+                max-width: 100%;
             }
 
-            .notifications-header h1 {
-                font-size: 32px;
-            }
-
-            .notification-card {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .notification-content p {
-                font-size: 14px;
-            }
-
-            .notification-content .timestamp {
-                font-size: 12px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .notifications-header h1 {
-                font-size: 28px;
-            }
-
-            .notification-card {
+            .terms-card {
                 padding: 15px;
-            }
-
-            .notification-content p {
-                font-size: 13px;
-            }
-
-            .notification-content .timestamp {
-                font-size: 11px;
             }
         }
     </style>
@@ -608,14 +499,14 @@
     <nav class="navbar">
         <div class="navbar-content">
             <div class="logo">
-                <a href="index.html">
+                <a href="second-home-page.html">
                     <i class="fas fa-book"></i>
                     <span>Burmese Reader</span>
                 </a>
             </div>
             <div class="nav-links">
-                <a href="second-home-page.html">Home</a>
-                <a href="second-library.html">Library</a>
+                <a href="index.html">Home</a>
+                <a href="library.html">Library</a>
                 <a href="second-upload.html">User Upload</a>
                 <a href="second-about-us.html">About Us</a>
                 <a href="second-contact-us-page.html">Contact Us</a>
@@ -635,61 +526,57 @@
         </div>
     </nav>
 
-    <section class="notifications-section">
-        <div class="notifications-container">
-            <div class="notifications-header">
-                <h1>Notifications</h1>
-                <button class="clear-btn">Clear All</button>
-            </div>
-            <div class="notification-list">
-                <div class="notification-card">
-                    <i class="fas fa-bell"></i>
-                    <div class="notification-content">
-                        <p>New book available! "To Kill a Mockingbird" is now in the library.</p>
-                        <span class="timestamp">2 hours ago</span>
-                    </div>
+    <section class="fade-in terms-section">
+        <div class="terms-container">
+            <h2>Terms of Service</h2>
+            <div class="terms-content">
+                <div class="terms-card">
+                    <h3>1. Acceptance of Terms</h3>
+                    <p>
+                        By accessing or using the Burmese Reader website, you agree to be bound by these Terms of Service. If you do not agree with any part of these terms, you may not use our services. Your continued use of the platform signifies your acceptance of any updates to these terms.
+                    </p>
                 </div>
-                <div class="notification-card">
-                    <i class="fas fa-bell"></i>
-                    <div class="notification-content">
-                        <p>Your borrow request for "1984" has been approved.</p>
-                        <span class="timestamp">1 day ago</span>
-                    </div>
+
+                <div class="terms-card">
+                    <h3>2. Use of Services</h3>
+                    <p>
+                        You agree to use the Burmese Reader platform only for lawful purposes and in a way that does not infringe the rights of others or restrict their use of the platform. Prohibited activities include uploading harmful content, engaging in fraudulent activities, or attempting to gain unauthorized access to our systems.
+                    </p>
                 </div>
-                <div class="notification-card">
-                    <i class="fas fa-bell"></i>
-                    <div class="notification-content">
-                        <p>Reminder: Return "Pride and Prejudice" by tomorrow.</p>
-                        <span class="timestamp">3 days ago</span>
-                    </div>
+
+                <div class="terms-card">
+                    <h3>3. Borrowing Books</h3>
+                    <p>
+                        When borrowing books through our platform, you agree to return them within the specified borrowing period (typically 14 days). Late returns may incur additional fees as outlined in our fee schedule. You are responsible for the condition of the book during your borrowing period.
+                    </p>
                 </div>
-                <div class="notification-card">
-                    <i class="fas fa-bell"></i>
-                    <div class="notification-content">
-                        <p>Reminder: Return "Pride and Prejudice" by tomorrow.</p>
-                        <span class="timestamp">3 days ago</span>
-                    </div>
+
+                <div class="terms-card">
+                    <h3>4. User Content</h3>
+                    <p>
+                        Users may upload content such as book reviews or other materials. By uploading content, you grant Burmese Reader a non-exclusive, royalty-free license to use, display, and distribute your content on our platform. You are solely responsible for ensuring your content does not violate any laws or third-party rights.
+                    </p>
                 </div>
-                <div class="notification-card">
-                    <i class="fas fa-bell"></i>
-                    <div class="notification-content">
-                        <p>Reminder: Return "Pride and Prejudice" by tomorrow.</p>
-                        <span class="timestamp">3 days ago</span>
-                    </div>
+
+                <div class="terms-card">
+                    <h3>5. Limitation of Liability</h3>
+                    <p>
+                        Burmese Reader is not liable for any damages arising from your use of the platform, including but not limited to loss of data, financial loss, or personal injury. Our services are provided on an "as-is" basis without warranties of any kind, either express or implied.
+                    </p>
                 </div>
-                <div class="notification-card">
-                    <i class="fas fa-bell"></i>
-                    <div class="notification-content">
-                        <p>Reminder: Return "Pride and Prejudice" by tomorrow.</p>
-                        <span class="timestamp">3 days ago</span>
-                    </div>
+
+                <div class="terms-card">
+                    <h3>6. Changes to Terms</h3>
+                    <p>
+                        We may update these Terms of Service from time to time to reflect changes in our services or legal requirements. Any changes will be posted on this page with an effective date, and your continued use of the platform after such changes constitutes your acceptance of the updated terms.
+                    </p>
                 </div>
-                <div class="notification-card">
-                    <i class="fas fa-bell"></i>
-                    <div class="notification-content">
-                        <p>Reminder: Return "Pride and Prejudice" by tomorrow.</p>
-                        <span class="timestamp">3 days ago</span>
-                    </div>
+
+                <div class="terms-card">
+                    <h3>7. Contact Us</h3>
+                    <p>
+                        If you have any questions about these Terms of Service, please contact us at <a href="mailto:support@burmesereader.com">support@burmesereader.com</a> or call us at <a href="tel:+95123456789">+95 123 456 789</a>.
+                    </p>
                 </div>
             </div>
         </div>
@@ -702,25 +589,18 @@
                 <ul>
                     <li><a href="second-home-page.html">Home</a></li>
                     <li><a href="second-about-us.html">About Us</a></li>
-                
                     <li><a href="second-upload.html">User Upload</a></li>
                 </ul>
             </div>
             <div id="footer-help-support">
                 <h3>Help Center</h3>
                 <ul>
-                    
                     <li><a href="second-contact-us-page.html">Contact Us</a></li>
                     <li><a href="second-terms-of-service.html">Terms of Service</a></li>
-                    
                 </ul>
             </div>
             <div>
-                <h3>Contact</h3>
-                <div class="contact-info">
-                    <p><i class="fas fa-envelope"></i> <a href="mailto:support@burmesereader.com">burmesereader@gmail.com</a></p>
-                    <p><i class="fas fa-phone"></i> <a href="tel:+95123456789">+95 123 456 789</a></p>
-                </div>
+                <h3>Our Social Media</h3>
                 <div class="social-icons">
                     <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
                     <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>

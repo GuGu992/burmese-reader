@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notifications - Burmese Reader</title>
+    <title>Terms of Service - Burmese Reader</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+    <link rel="stylesheet" href="./animation.css">
     <style>
         * {
             margin: 0;
@@ -24,6 +24,10 @@
 
         body.dark-mode {
             background: #1A1A1A;
+            color: #F2F3AE;
+        }
+
+        body.dark-mode h2 {
             color: #F2F3AE;
         }
 
@@ -59,6 +63,7 @@
             align-items: center;
             gap: 30px;
         }
+
         .logo {
             display: flex;
             align-items: center;
@@ -101,7 +106,6 @@
         }
 
         .nav-links a {
-       
             color: #3C1518;
             text-decoration: none;
             font-weight: 500;
@@ -119,35 +123,8 @@
         body.dark-mode .nav-links a:hover {
             color: #D58936;
         }
-        .nav-actions a {
-            text-decoration: none;
-            font-size: 20px;
-            color: #3C1518;
-            transition: color 0.3s ease;
-        }
-
-        body.dark-mode .nav-actions a {
-            color: #F2F3AE;
-        }
-
-        .nav-actions a:hover {
-            color: #A44200;
-        }
-
-        body.dark-mode .nav-actions a:hover {
-            color: #D58936;
-        }
-
-        .nav-actions .active {
-            color: #A44200;
-        }
-
-        body.dark-mode .nav-actions .active {
-            color: #D58936;
-        }
 
         .nav-actions {
-            font-size: 20px;
             display: flex;
             align-items: center;
             gap: 15px;
@@ -178,7 +155,7 @@
         }
 
         body.dark-mode .theme-slider {
-            background: #69140E;
+            background: #221e1d;
         }
 
         .theme-slider::before {
@@ -254,7 +231,7 @@
         }
 
         .nav-btn.login-btn {
-            background: #69140E;
+            background: #221e1d;
             color: #FFFFFF;
         }
 
@@ -266,14 +243,15 @@
             transform: scale(1.05);
         }
 
-        .notifications-section {
-            height: auto;
-            padding: 120px 20px 20px;
+        .terms-section {
+            min-height: 100vh;
+            padding: 120px 20px 80px;
             background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5_7n1w9JfbxVGwszOncfJvTgBtwuy6vT0QolEv2fVEukWAjhyi2TwXls9R_PyZFkefgI&usqp=CAU') center/cover no-repeat;
             position: relative;
+            padding-top: 80px;
         }
 
-        .notifications-section::before {
+        .terms-section::before {
             content: '';
             position: absolute;
             top: 0;
@@ -284,129 +262,83 @@
             transition: all 0.3s ease-in;
         }
 
-        body.dark-mode .notifications-section::before {
+        body.dark-mode .terms-section::before {
             background: rgba(26, 26, 26, 0.8);
         }
-        .notification-list {
-            max-height: 600px;
-            overflow-x: hidden;
-            padding-right: 10px; /* Optional: to prevent scrollbar overlap */
-            
-            border-radius: 8px;
-            overflow-y: auto;
-        }
 
-        .notification-list::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .notification-list::-webkit-scrollbar-thumb {
-            background-color: #888;
-            border-radius: 4px;
-        }
-
-.notification-list::-webkit-scrollbar-thumb:hover {
-  background-color: #555;
-}
-
-        .notifications-container {
+        .terms-container {
             max-width: 1200px;
-            padding-bottom: 100px;
             margin: 0 auto;
+            background: #FFFFFF;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease-in;
             position: relative;
             z-index: 1;
         }
 
-        .notifications-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .notifications-header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 40px;
-            color: #A44200;
-        }
-
-        body.dark-mode .notifications-header h1 {
-            color: #D58936;
-        }
-
-        .clear-btn {
-            padding: 8px 16px;
-            background: #A44200;
-            color: #FFFFFF;
-            border: none;
-            border-radius: 20px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease, transform 0.2s ease;
-        }
-
-        body.dark-mode .clear-btn {
-            background: #D58936;
-        }
-
-        .clear-btn:hover {
-            background: #69140E;
-            transform: scale(1.05);
-        }
-
-        body.dark-mode .clear-btn:hover {
-            background: #A44200;
-        }
-
-        .notification-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .notification-card {
-            background: #FFFFFF;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            transition: all 0.3s ease;
-        }
-
-        body.dark-mode .notification-card {
+        body.dark-mode .terms-container {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05);
         }
 
-        .notification-card i {
-            font-size: 24px;
+        .terms-container h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
             color: #A44200;
         }
 
-        body.dark-mode .notification-card i {
+        body.dark-mode .terms-container h2 {
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+        }
+
+        .terms-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .terms-content h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #A44200;
+            border-bottom: 2px solid #A44200;
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+
+        body.dark-mode .terms-content h3 {
+            color: #D58936;
+            border-bottom: 2px solid #D58936;
+        }
+
+        .terms-content p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .terms-content a {
+            color: #A44200;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .terms-content a {
             color: #D58936;
         }
 
-        .notification-content {
-            flex: 1;
+        .terms-content a:hover {
+            color: #D58936;
         }
 
-        .notification-content p {
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
-
-        .notification-content .timestamp {
-            font-size: 14px;
-            color: #3C1518;
-            font-weight: 300;
-        }
-
-        body.dark-mode .notification-content .timestamp {
+        body.dark-mode .terms-content a:hover {
             color: #F2F3AE;
         }
 
@@ -506,7 +438,7 @@
             justify-content: center;
             width: 30px;
             height: 30px;
-            background: #69140E;
+            background: #221e1d;
             border-radius: 50%;
             font-size: 15px;
             color: #FFFFFF;
@@ -561,45 +493,12 @@
                 font-size: 14px;
             }
 
-            .notifications-header {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
+            .terms-container {
+                padding: 20px;
             }
 
-            .notifications-header h1 {
-                font-size: 32px;
-            }
-
-            .notification-card {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .notification-content p {
-                font-size: 14px;
-            }
-
-            .notification-content .timestamp {
-                font-size: 12px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .notifications-header h1 {
-                font-size: 28px;
-            }
-
-            .notification-card {
-                padding: 15px;
-            }
-
-            .notification-content p {
-                font-size: 13px;
-            }
-
-            .notification-content .timestamp {
-                font-size: 11px;
+            .terms-content {
+                max-width: 100%;
             }
         }
     </style>
@@ -608,17 +507,17 @@
     <nav class="navbar">
         <div class="navbar-content">
             <div class="logo">
-                <a href="index.html">
+                <a href="second-home.html">
                     <i class="fas fa-book"></i>
                     <span>Burmese Reader</span>
                 </a>
             </div>
             <div class="nav-links">
-                <a href="second-home-page.html">Home</a>
-                <a href="second-library.html">Library</a>
-                <a href="second-upload.html">User Upload</a>
-                <a href="second-about-us.html">About Us</a>
-                <a href="second-contact-us-page.html">Contact Us</a>
+                <a href="index.html">Home</a>
+                <a href="library.html">Library</a>
+                <a href="upload.html">User Upload</a>
+                <a href="about-us.html">About Us</a>
+                <a href="contact-us.html">Contact Us</a>
             </div>
             <div class="nav-actions">
                 <label class="theme-switch">
@@ -628,69 +527,50 @@
                         <i class="fas fa-moon moon"></i>
                     </span>
                 </label>
-                <a href="user-profile.html" title="User Profile"><i class="fas fa-user"></i></a>
-                <a href="notification.html" title="Notifications"><i class="fas fa-bell"></i></a>
-                <a href="login.html" title="Log Out"><i class="fas fa-sign-out-alt"></i></a>
+                <a href="register.html" class="nav-btn register-btn">Register</a>
+                <a href="login.html" class="nav-btn login-btn">Log In</a>
             </div>
         </div>
     </nav>
 
-    <section class="notifications-section">
-        <div class="notifications-container">
-            <div class="notifications-header">
-                <h1>Notifications</h1>
-                <button class="clear-btn">Clear All</button>
-            </div>
-            <div class="notification-list">
-                <div class="notification-card">
-                    <i class="fas fa-bell"></i>
-                    <div class="notification-content">
-                        <p>New book available! "To Kill a Mockingbird" is now in the library.</p>
-                        <span class="timestamp">2 hours ago</span>
-                    </div>
-                </div>
-                <div class="notification-card">
-                    <i class="fas fa-bell"></i>
-                    <div class="notification-content">
-                        <p>Your borrow request for "1984" has been approved.</p>
-                        <span class="timestamp">1 day ago</span>
-                    </div>
-                </div>
-                <div class="notification-card">
-                    <i class="fas fa-bell"></i>
-                    <div class="notification-content">
-                        <p>Reminder: Return "Pride and Prejudice" by tomorrow.</p>
-                        <span class="timestamp">3 days ago</span>
-                    </div>
-                </div>
-                <div class="notification-card">
-                    <i class="fas fa-bell"></i>
-                    <div class="notification-content">
-                        <p>Reminder: Return "Pride and Prejudice" by tomorrow.</p>
-                        <span class="timestamp">3 days ago</span>
-                    </div>
-                </div>
-                <div class="notification-card">
-                    <i class="fas fa-bell"></i>
-                    <div class="notification-content">
-                        <p>Reminder: Return "Pride and Prejudice" by tomorrow.</p>
-                        <span class="timestamp">3 days ago</span>
-                    </div>
-                </div>
-                <div class="notification-card">
-                    <i class="fas fa-bell"></i>
-                    <div class="notification-content">
-                        <p>Reminder: Return "Pride and Prejudice" by tomorrow.</p>
-                        <span class="timestamp">3 days ago</span>
-                    </div>
-                </div>
-                <div class="notification-card">
-                    <i class="fas fa-bell"></i>
-                    <div class="notification-content">
-                        <p>Reminder: Return "Pride and Prejudice" by tomorrow.</p>
-                        <span class="timestamp">3 days ago</span>
-                    </div>
-                </div>
+    <section class="fade-in terms-section">
+        <div class="terms-container">
+            <h2>Terms of Service</h2>
+            <div class="terms-content">
+                <h3>1. Acceptance of Terms</h3>
+                <p>
+                    By accessing or using the Burmese Reader website, you agree to comply with these Terms of Service. If you do not agree with any part of these terms, please refrain from using our services. Your continued use of the platform indicates your acceptance of any updates to these terms.
+                </p>
+
+                <h3>2. Use of Services</h3>
+                <p>
+                    You may only use the Burmese Reader platform for lawful purposes and in a manner that does not infringe on the rights of others or hinder their use of the service. Prohibited actions include uploading harmful content, engaging in fraudulent behavior, or attempting unauthorized access to our systems.
+                </p>
+
+                <h3>3. Borrowing and Lending</h3>
+                <p>
+                    When borrowing books, you agree to return them within the specified period (typically 14 days). Late returns may incur fees as per our policy. You are responsible for the condition of borrowed books during your possession.
+                </p>
+
+                <h3>4. User Content</h3>
+                <p>
+                    Users may upload content such as reviews or materials. By doing so, you grant Burmese Reader a non-exclusive, royalty-free license to use, display, and distribute your content. Ensure your uploads comply with all applicable laws and respect third-party rights.
+                </p>
+
+                <h3>5. Limitation of Liability</h3>
+                <p>
+                    Burmese Reader is not liable for any damages resulting from your use of the platform, including data loss, financial harm, or personal injury. Our services are provided "as-is" without any warranties, express or implied.
+                </p>
+
+                <h3>6. Modifications to Terms</h3>
+                <p>
+                    We reserve the right to update these Terms of Service to reflect changes in our services or legal requirements. Updates will be posted here with an effective date, and continued use of the platform after such changes constitutes acceptance.
+                </p>
+
+                <h3>7. Contact Information</h3>
+                <p>
+                    For any questions regarding these Terms of Service, please reach out to us at <a href="mailto:support@burmesereader.com">burmesereader@gmail.com</a> or call <a href="tel:+95123456789">+95 123 456 789</a>.
+                </p>
             </div>
         </div>
     </section>
@@ -700,19 +580,16 @@
             <div>
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="second-home-page.html">Home</a></li>
-                    <li><a href="second-about-us.html">About Us</a></li>
-                
-                    <li><a href="second-upload.html">User Upload</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="upload.html">User Upload</a></li>
                 </ul>
             </div>
             <div id="footer-help-support">
                 <h3>Help Center</h3>
                 <ul>
-                    
-                    <li><a href="second-contact-us-page.html">Contact Us</a></li>
-                    <li><a href="second-terms-of-service.html">Terms of Service</a></li>
-                    
+                    <li><a href="contact-us.html">Contact Us</a></li>
+                    <li><a href="trems-of-service.html">Terms of Service</a></li>
                 </ul>
             </div>
             <div>
