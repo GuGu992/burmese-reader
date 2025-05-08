@@ -63,9 +63,22 @@
             margin: 0 auto;
             padding: 0 20px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            gap: 30px;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .hamburger {
+            background: none;
+            border: none;
+            font-size: 24px;
+            display: none;
+            cursor: pointer;
+            color: #3C1518;
+        }
+
+        body.dark-mode .hamburger {
+            color: #F2F3AE;
         }
 
         .logo {
@@ -103,10 +116,10 @@
 
         .nav-links {
             display: flex;
-            align-items: center;
             gap: 30px;
-            flex-grow: 1;
             justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
         }
 
         .nav-links a {
@@ -126,6 +139,21 @@
 
         body.dark-mode .nav-links a:hover {
             color: #D58936;
+        }
+
+        .nav-links a.active {
+            color: #A44200;
+        }
+
+        body.dark-mode .nav-links a.active {
+            color: #D58936;
+        }
+
+        .navbar-content.mobile-open .nav-links,
+        .navbar-content.mobile-open .nav-actions {
+            max-height: 500px;
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .nav-actions {
@@ -496,8 +524,17 @@
             transition: all 0.3s ease;
         }
 
-        body.dark-mode .social-indark-mode .social-icons a:hover {
+        body.dark-mode .social-icons a {
+            background: #A44200;
+        }
+
+        .social-icons a:hover {
             background: #D58936;
+        }
+
+        body.dark-mode .social-icons a:hover {
+            background: #F2F3AE;
+            color: #3C1518;
         }
 
         .copyright {
@@ -512,22 +549,27 @@
         }
 
         @media (max-width: 768px) {
-            .navbar-content {
-                flex-direction: column;
-                gap: 20px;
+            .hamburger {
+                display: block;
             }
 
             .nav-links {
+                width: 100%;
                 flex-direction: column;
-                gap: 15px;
-                text-align: center;
+                align-items: flex-start;
+                display: none;
+                padding-top: 15px;
+            }
+
+            .nav-links.show {
+                display: flex;
             }
 
             .nav-actions {
-                flex-direction: row;
-                gap: 20px;
-                width: 100%;
+                margin-top: 10px;
                 justify-content: center;
+                width: auto;
+                flex-wrap: wrap;
             }
 
             .nav-btn {
@@ -554,15 +596,18 @@
     <nav class="navbar">
         <div class="navbar-content">
             <div class="logo">
-                <a href="second-home-page.html">
+                <a href="index.html">
                     <i class="fas fa-book"></i>
-                    <span>Burmese Reader</span>
+                    <span>Burmese Readers</span>
                 </a>
             </div>
-            <div class="nav-links">
+            <button class="hamburger" id="hamburger-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links fade-in" id="nav-menu">
                 <a href="index.html">Home</a>
                 <a href="library.html">Library</a>
-                <a href="upload.html">User Upload</a>
+                <a href="upload.html">News Feed</a>
                 <a href="about-us.html">About Us</a>
                 <a href="contact-us.html">Contact Us</a>
             </div>
@@ -590,7 +635,6 @@
                 <textarea placeholder="Your Message" required></textarea>
                 <button onclick="alert('Message sent! We will get back to you soon.');">Send Message</button>
             </div>
-
             <div class="contact-details-container">
                 <div class="location-map">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d61096.54479022356!2d96.10176208560848!3d16.849456165088135!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30c1eb45fceefc75%3A0xe212bff0f1a5c596!2sGUSTO%20University!5e0!3m2!1sen!2ssg!4v1746460202430!5m2!1sen!2ssg" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -612,17 +656,14 @@
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about-us.html">About Us</a></li>
-                
-                    <li><a href="upload.html">User Upload</a></li>
+                    <li><a href="upload.html">News Feed</a></li>
                 </ul>
             </div>
             <div id="footer-help-support">
                 <h3>Help Center</h3>
                 <ul>
-                    
                     <li><a href="contact-us.html">Contact Us</a></li>
                     <li><a href="terms-of-service.html">Terms of Service</a></li>
-                    
                 </ul>
             </div>
             <div>
@@ -637,6 +678,11 @@
     </footer>
 
     <script>
+        function toggleMenu() {
+            const navMenu = document.getElementById("nav-menu");
+            navMenu.classList.toggle("show");
+        }
+
         function toggleMode() {
             document.body.classList.toggle('dark-mode');
             const themeToggle = document.getElementById('theme-toggle');

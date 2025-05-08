@@ -61,9 +61,22 @@
             margin: 0 auto;
             padding: 0 20px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            gap: 30px;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .hamburger {
+            background: none;
+            border: none;
+            font-size: 24px;
+            display: none;
+            cursor: pointer;
+            color: #3C1518;
+        }
+
+        body.dark-mode .hamburger {
+            color: #F2F3AE;
         }
 
         .logo {
@@ -101,10 +114,10 @@
 
         .nav-links {
             display: flex;
-            align-items: center;
             gap: 30px;
-            flex-grow: 1;
             justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
         }
 
         .nav-links a {
@@ -124,6 +137,21 @@
 
         body.dark-mode .nav-links a:hover {
             color: #D58936;
+        }
+
+        .nav-links a.active {
+            color: #A44200;
+        }
+
+        body.dark-mode .nav-links a.active {
+            color: #D58936;
+        }
+
+        .navbar-content.mobile-open .nav-links,
+        .navbar-content.mobile-open .nav-actions {
+            max-height: 500px;
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .nav-actions {
@@ -178,11 +206,11 @@
             transform: translateX(25px);
         }
 
-        .theme-switch input:checked + .theme-slider {
+        .theme-switch input:checked+.theme-slider {
             background: #D58936;
         }
 
-        body.dark-mode .theme-switch input:checked + .theme-slider {
+        body.dark-mode .theme-switch input:checked+.theme-slider {
             background: #D58936;
         }
 
@@ -212,6 +240,37 @@
 
         body.dark-mode .theme-switch .moon {
             opacity: 1;
+        }
+
+        .nav-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 20px;
+            transition: all 0.3s ease, transform 0.2s ease;
+        }
+
+        .nav-btn.register-btn {
+            background: #A44200;
+            color: #FFFFFF;
+        }
+
+        body.dark-mode .nav-btn.register-btn {
+            background: #D58936;
+        }
+
+        .nav-btn.login-btn {
+            background: #221e1d;
+            color: #FFFFFF;
+        }
+
+        body.dark-mode .nav-btn.login-btn {
+            background: #A44200;
+        }
+
+        .nav-btn:hover {
+            transform: scale(1.05);
         }
 
         .btn {
@@ -302,6 +361,12 @@
             color: #D58936;
         }
 
+        .login-container .login-btn {
+            display: block;
+            margin: 20px auto;
+            width: fit-content;
+        }
+
         .form-group {
             margin-bottom: 20px;
         }
@@ -344,35 +409,6 @@
         body.dark-mode .form-group input:focus {
             border-color: #F2F3AE;
             box-shadow: 0 0 5px rgba(242, 243, 174, 0.3);
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 25px;
-            background: #A44200;
-            color: #FFFFFF;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        body.dark-mode .login-btn {
-            background: #D58936;
-        }
-
-        .login-btn:hover {
-            background: #D58936;
-            transform: scale(1.02);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        body.dark-mode .login-btn:hover {
-            background: #F2F3AE;
-            color: #3C1518;
-            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
         }
 
         .register-link {
@@ -538,21 +574,32 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .navbar-content {
-                flex-direction: column;
-                gap: 20px;
+            .hamburger {
+                display: block;
             }
 
             .nav-links {
+                width: 100%;
                 flex-direction: column;
-                gap: 15px;
-                text-align: center;
+                align-items: flex-start;
+                display: none;
+                padding-top: 15px;
+            }
+
+            .nav-links.show {
+                display: flex;
             }
 
             .nav-actions {
-                flex-direction: column;
-                gap: 10px;
-                width: 100%;
+                margin-top: 10px;
+                justify-content: center;
+                width: auto;
+                flex-wrap: wrap;
+            }
+
+            .nav-btn {
+                padding: 6px 12px;
+                font-size: 14px;
             }
 
             .btn {
@@ -572,13 +619,16 @@
             <div class="logo">
                 <a href="index.html">
                     <i class="fas fa-book"></i>
-                    <span>Burmese Reader</span>
+                    <span>Burmese Readers</span>
                 </a>
             </div>
-            <div class="nav-links">
+            <button class="hamburger" id="hamburger-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links fade-in" id="nav-menu">
                 <a href="index.html">Home</a>
                 <a href="library.html">Library</a>
-                <a href="upload.html">User Upload</a>
+                <a href="upload.html">News Feed</a>
                 <a href="about-us.html">About Us</a>
                 <a href="contact-us.html">Contact Us</a>
             </div>
@@ -590,8 +640,8 @@
                         <i class="fas fa-moon moon"></i>
                     </span>
                 </label>
-                <a href="register.html" class="btn btn-primary">Register</a>
-                <a href="login.html" class="btn btn-secondary">Log In</a>
+                <a href="register.html" class="nav-btn register-btn">Register</a>
+                <a href="login.html" class="nav-btn login-btn">Log In</a>
             </div>
         </div>
     </nav>
@@ -607,7 +657,7 @@
                 <label for="password">Password</label>
                 <input type="password" id="password" placeholder="Enter your password" required>
             </div>
-            <button type="button" class="login-btn" onclick="window.location.href='user-profile.html'">Log In</button>
+            <button type="button" class="login-btn nav-btn" onclick="window.location.href='user-profile.html'">Log In</button>
             <div class="register-link">
                 <p>Don't have an account? <a href="register.html">Register</a></p>
             </div>
@@ -621,17 +671,14 @@
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about-us.html">About Us</a></li>
-                
-                    <li><a href="upload.html">User Upload</a></li>
+                    <li><a href="upload.html">News Feed</a></li>
                 </ul>
             </div>
             <div id="footer-help-support">
                 <h3>Help Center</h3>
                 <ul>
-                    
                     <li><a href="contact-us.html">Contact Us</a></li>
                     <li><a href="terms-of-service.html">Terms of Service</a></li>
-                    
                 </ul>
             </div>
             <div>
@@ -650,6 +697,11 @@
     </footer>
 
     <script>
+        function toggleMenu() {
+            const navMenu = document.getElementById("nav-menu");
+            navMenu.classList.toggle("show");
+        }
+
         function toggleMode() {
             document.body.classList.toggle('dark-mode');
             const themeToggle = document.getElementById('theme-toggle');
@@ -660,7 +712,7 @@
             }
         }
 
-        window.onload = function() {
+        window.onload = function () {
             const savedTheme = localStorage.getItem('theme') || 'light';
             if (savedTheme === 'dark') {
                 document.body.classList.add('dark-mode');

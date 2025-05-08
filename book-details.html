@@ -59,9 +59,22 @@
             margin: 0 auto;
             padding: 0 20px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            gap: 30px;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .hamburger {
+            background: none;
+            border: none;
+            font-size: 24px;
+            display: none;
+            cursor: pointer;
+            color: #3C1518;
+        }
+
+body.dark-mode .hamburger {
+            color: #F2F3AE;
         }
 
         .logo {
@@ -97,12 +110,13 @@
             color: #F2F3AE;
         }
 
-        .nav-links {
+        
+.nav-links {
             display: flex;
-            align-items: center;
             gap: 30px;
-            flex-grow: 1;
             justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
         }
 
         .nav-links a {
@@ -123,6 +137,7 @@
         body.dark-mode .nav-links a:hover {
             color: #D58936;
         }
+
 
         .nav-actions {
             display: flex;
@@ -534,23 +549,28 @@
             color: #F2F3AE;
         }
 
-        @media (max-width: 768px) {
-            .navbar-content {
+          @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            
+            .nav-links {
+                width: 100%;
                 flex-direction: column;
-                gap: 20px;
+                align-items: flex-start;
+                display: none;
+                padding-top: 15px;
             }
 
-            .nav-links {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
+            .nav-links.show {
+                display: flex;
             }
 
             .nav-actions {
-                flex-direction: row;
-                gap: 10px;
-                width: 100%;
+                margin-top: 10px;
                 justify-content: center;
+                width: 100%;
+                flex-wrap: wrap;
             }
 
             .nav-btn {
@@ -599,20 +619,28 @@
 </head>
 <body>
     <nav class="navbar">
-        <div class="navbar-content">
+        <div class="navbar-content ">
             <div class="logo">
                 <a href="second-home.html">
                     <i class="fas fa-book"></i>
-                    <span>Burmese Reader</span>
+                    <span>Burmese Readers</span>
                 </a>
             </div>
-            <div class="nav-links">
+
+            <!-- Hamburger toggle -->
+            <button class="hamburger" id="hamburger-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Navigation links -->
+            <div class="nav-links fade-in" id="nav-menu">
                 <a href="index.html">Home</a>
                 <a href="library.html">Library</a>
-                <a href="upload.html">User Upload</a>
+                <a href="upload.html">News Feed</a>
                 <a href="about-us.html">About Us</a>
                 <a href="contact-us.html">Contact Us</a>
-            </div>
+
+                <!-- Actions (theme & auth) -->
             <div class="nav-actions">
                 <label class="theme-switch">
                     <input type="checkbox" id="theme-toggle" onchange="toggleMode()">
@@ -624,8 +652,23 @@
                 <a href="register.html" class="nav-btn register-btn">Register</a>
                 <a href="login.html" class="nav-btn login-btn">Log In</a>
             </div>
+            </div>
+
+            
         </div>
     </nav>
+
+    <script>
+        function toggleMenu() {
+            const navMenu = document.getElementById("nav-menu");
+            navMenu.classList.toggle("show");
+            
+        }
+
+        function toggleMode() {
+            document.body.classList.toggle("dark-mode");
+        }
+    </script>
 
     <section class="fade-in book-details-section">
         <div class="book-details-container">
@@ -660,7 +703,7 @@
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about-us.html">About Us</a></li>
                 
-                    <li><a href="upload.html">User Upload</a></li>
+                    <li><a href="upload.html">News Feed</a></li>
                 </ul>
             </div>
             <div id="footer-help-support">

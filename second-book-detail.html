@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notifications - Burmese Reader</title>
+    <title>Book Details - Burmese Reader</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="./animation.css">
     <style>
         * {
             margin: 0;
@@ -23,6 +24,9 @@
 
         body.dark-mode {
             background: #1A1A1A;
+            color: #F2F3AE;
+        }
+        body.dark-mode h2 {
             color: #F2F3AE;
         }
 
@@ -107,9 +111,9 @@
 
         .nav-links {
             display: flex;
-            align-items: center;
             gap: 30px;
             justify-content: center;
+            align-items: center;
             transition: all 0.3s ease;
         }
 
@@ -141,37 +145,9 @@
         }
 
         .nav-actions {
-            font-size: 20px;
             display: flex;
             align-items: center;
             gap: 15px;
-        }
-
-        .nav-actions a {
-            text-decoration: none;
-            font-size: 20px;
-            color: #3C1518;
-            transition: color 0.3s ease;
-        }
-
-        body.dark-mode .nav-actions a {
-            color: #F2F3AE;
-        }
-
-        .nav-actions a:hover {
-            color: #A44200;
-        }
-
-        body.dark-mode .nav-actions a:hover {
-            color: #D58936;
-        }
-
-        .nav-actions a.active {
-            color: #A44200;
-        }
-
-        body.dark-mode .nav-actions a.active {
-            color: #D58936;
         }
 
         .theme-switch {
@@ -199,7 +175,7 @@
         }
 
         body.dark-mode .theme-slider {
-            background: #69140E;
+            background: #221e1d;
         }
 
         .theme-slider::before {
@@ -256,14 +232,33 @@
             opacity: 1;
         }
 
-        .notifications-section {
+        .nav-actions a {
+            text-decoration: none;
+            font-size: 20px;
+            color: #3C1518;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .nav-actions a {
+            color: #F2F3AE;
+        }
+
+        .nav-actions a:hover {
+            color: #A44200;
+        }
+
+        body.dark-mode .nav-actions a:hover {
+            color: #D58936;
+        }
+
+        .book-details-section {
             height: auto;
-            padding: 120px 20px 20px;
+            padding: 100px 20px 20px;
             background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5_7n1w9JfbxVGwszOncfJvTgBtwuy6vT0QolEv2fVEukWAjhyi2TwXls9R_PyZFkefgI&usqp=CAU') center/cover no-repeat;
             position: relative;
         }
 
-        .notifications-section::before {
+        .book-details-section::before {
             content: '';
             position: absolute;
             top: 0;
@@ -274,167 +269,150 @@
             transition: all 0.3s ease-in;
         }
 
-        body.dark-mode .notifications-section::before {
+        body.dark-mode .book-details-section::before {
             background: rgba(26, 26, 26, 0.8);
         }
 
-        .notification-list {
-            max-height: 600px;
-            overflow-x: hidden;
-            padding-right: 10px;
-            border-radius: 8px;
-            overflow-y: auto;
-        }
-
-        .notification-list::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .notification-list::-webkit-scrollbar-thumb {
-            background-color: #888;
-            border-radius: 4px;
-        }
-
-        .notification-list::-webkit-scrollbar-thumb:hover {
-            background-color: #555;
-        }
-
-        .notifications-container {
+        .book-details-container {
             max-width: 1200px;
-            padding-bottom: 100px;
             margin: 0 auto;
+            display: flex;
+            gap: 40px;
+            background: #FFFFFF;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
             position: relative;
             z-index: 1;
         }
 
-        .notifications-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .notifications-header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 40px;
-            color: #A44200;
-        }
-
-        body.dark-mode .notifications-header h1 {
-            color: #D58936;
-        }
-
-        .clear-btn {
-            padding: 8px 16px;
-            background: #A44200;
-            color: #FFFFFF;
-            border: none;
-            border-radius: 20px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease, transform 0.2s ease;
-        }
-
-        body.dark-mode .clear-btn {
-            background: #D58936;
-        }
-
-        .clear-btn:hover {
-            background: #69140E;
-            transform: scale(1.05);
-        }
-
-        body.dark-mode .clear-btn:hover {
-            background: #A44200;
-        }
-
-        .notification-card {
-            background: #FFFFFF;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            transition: all 0.3s ease;
-            margin-bottom: 12px;
-        }
-
-        body.dark-mode .notification-card {
+        body.dark-mode .book-details-container {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05);
         }
 
-        .notification-card i {
-            font-size: 24px;
+        .book-cover {
+            flex: 0 0 300px;
+        }
+
+        .book-cover img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .book-cover img {
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .book-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .book-info h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
             color: #A44200;
         }
 
-        body.dark-mode .notification-card i {
+        body.dark-mode .book-info h1 {
             color: #D58936;
         }
 
-        .notification-content {
-            flex: 1;
-        }
-        
-        .notification-content p {
-            font-size: 16px;
-            margin-bottom: 5px;
+        .book-info .author {
+            font-size: 18px;
+            font-weight: 500;
+            color: #3C1518;
         }
 
-        .notification-content .timestamp {
-            font-size: 14px;
-            color: #3C1518;
-            font-weight: 300;
+        body.dark-mode .book-info .author {
+            color: #F2F3AE;
         }
-        
-        .noti-btn {
-            padding: 8px 16px;
+
+        .book-info .details {
+            font-size: 16px;
+            color: #69140E;
+        }
+
+        body.dark-mode .book-info .details {
+            color: #D58936;
+        }
+
+        .book-info .description {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #3C1518;
+        }
+
+        body.dark-mode .book-info .description {
+            color: #F2F3AE;
+        }
+
+        .borrow-info {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .borrow-info p {
+            font-size: 16px;
+        }
+
+        .library-info {
+            display: flex;
             align-items: center;
             gap: 10px;
-            background-color: #A44200;
-            color: #FFFFFF;
-            border: none;
-            border-radius: 20px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease, transform 0.2s ease;
         }
-        .noti-btn:hover {
-            background: #69140E;
-            scale: 1.05;
-        }
-        body.dark-mode .noti-btn {
-            background-color:#D58936 ;
-        }
-        .noti-btn:last-child {
-            background-color: #000;
-        }
-        .noti-btn i {
+
+        .library-info i {
             font-size: 20px;
-            color: #fff;
+            color: #A44200;
         }
-        body.dark-mode .noti-btn i {
-            color:#F2F3AE ;
+
+        body.dark-mode .library-info i {
+            color: #D58936;
         }
-        body.dark-mode .noti-btn:last-child{
-            background-color: #000;
+
+        .library-info span {
+            font-size: 16px;
+            color: #3C1518;
         }
-        body.dark-mode .noti-btn {
-            color:#F2F3AE ;
-        }
-        .noti-btns {
-            display: flex;
-            flex-direction: row;
-            gap: 12px;
-        }
-        body.dark-mode .notification-content .timestamp {
+
+        body.dark-mode .library-info span {
             color: #F2F3AE;
+        }
+
+        .borrow-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #A44200;
+            color: #FFFFFF;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease, transform 0.2s ease;
+            align-self: flex-start;
+        }
+
+        body.dark-mode .borrow-btn {
+            background: #D58936;
+        }
+
+        .borrow-btn:hover {
+            background: #221e1d;
+            transform: scale(1.05);
+        }
+
+        body.dark-mode .borrow-btn:hover {
+            background: #A44200;
         }
 
         footer {
@@ -533,7 +511,7 @@
             justify-content: center;
             width: 30px;
             height: 30px;
-            background: #69140E;
+            background: #221e1d;
             border-radius: 50%;
             font-size: 15px;
             color: #FFFFFF;
@@ -588,45 +566,41 @@
                 flex-wrap: wrap;
             }
 
-            .notifications-header {
+            .book-details-container {
                 flex-direction: column;
-                gap: 15px;
-                text-align: center;
+                padding: 20px;
             }
 
-            .notifications-header h1 {
-                font-size: 32px;
+            .book-cover {
+                flex: 0 0 auto;
+                max-width: 200px;
+                margin: 0 auto;
             }
 
-            .notification-card {
-                flex-direction: column;
-                text-align: center;
+            .book-info h1 {
+                font-size: 24px;
             }
 
-            .notification-content p {
-                font-size: 14px;
-            }
-
-            .notification-content .timestamp {
-                font-size: 12px;
+            .borrow-btn {
+                align-self: center;
             }
         }
 
         @media (max-width: 480px) {
-            .notifications-header h1 {
-                font-size: 28px;
+            .book-cover {
+                max-width: 150px;
             }
 
-            .notification-card {
-                padding: 15px;
+            .book-info h1 {
+                font-size: 20px;
             }
 
-            .notification-content p {
-                font-size: 13px;
-            }
-
-            .notification-content .timestamp {
-                font-size: 11px;
+            .book-info .author,
+            .book-info .details,
+            .book-info .description,
+            .borrow-info p,
+            .library-info span {
+                font-size: 14px;
             }
         }
     </style>
@@ -640,12 +614,12 @@
                     <span>Burmese Readers</span>
                 </a>
             </div>
-            <button class="hamburger" id="hamburger-toggle" onclick="toggleMenu()">
+            <button class="hamburger" onclick="toggleMenu()">
                 <i class="fas fa-bars"></i>
             </button>
-            <div class="nav-links fade-in" id="nav-menu">
+            <div class="nav-links" id="nav-menu">
                 <a href="second-home.html">Home</a>
-                <a href="second-library.html">Library</a>
+                <a href="second-library.html" class="active">Library</a>
                 <a href="second-upload.html">News Feed</a>
                 <a href="second-about-us.html">About Us</a>
                 <a href="second-contact-us-page.html">Contact Us</a>
@@ -659,93 +633,33 @@
                     </span>
                 </label>
                 <a href="user-profile.html" title="User Profile"><i class="fas fa-user"></i></a>
-                <a href="notification.html" title="Notifications" class="active"><i class="fas fa-bell"></i></a>
+                <a href="notification.html" title="Notifications"><i class="fas fa-bell"></i></a>
                 <a href="login.html" title="Log Out"><i class="fas fa-sign-out-alt"></i></a>
             </div>
         </div>
     </nav>
 
-    <section class="notifications-section">
-        <div class="notifications-container">
-            <div class="notifications-header">
-                <h1>Notifications</h1>
-                <button class="clear-btn">Clear All</button>
+    <section class="fade-in book-details-section">
+        <div class="book-details-container">
+            <div class="book-cover">
+                <img src="https://covers.openlibrary.org/w/id/8231759-M.jpg" alt="The Great Gatsby Cover">
             </div>
-            <div class="notification-list">
-                <div class="notification-card">
-                    <i class="fas fa-bell"></i>
-                    <div class="notification-content">
-                        <p>Aung Aung wants to borrow The Keys to Success.</p>
-                        <span class="timestamp">2 hours ago</span>
-                    </div>
-                    <div class="noti-btns">
-                        <button class="noti-btn"><i class="fas fa-check"></i>Confirm</button>
-                        <button class="noti-btn"><i class="fas fa-x"></i>Remove</button>
-                    </div>
-                    
+            <div class="book-info">
+                <h1>The Great Gatsby</h1>
+                <p class="author">By F. Scott Fitzgerald</p>
+                <p class="details">Published: 1925 | Genre: Fiction | Pages: 180</p>
+                <p class="description">
+                    Set in the Jazz Age on Long Island, New York, *The Great Gatsby* tells the story of the mysterious millionaire Jay Gatsby and his obsession with the beautiful Daisy Buchanan. Through the eyes of narrator Nick Carraway, the novel explores themes of wealth, love, and the American Dream, revealing the emptiness and tragedy beneath the glittering surface of the Roaring Twenties.
+                </p>
+                <div class="borrow-info">
+                    <p>Borrow Time: 14 days</p>
+                    <p>Price: 5000 MMK</p>
                 </div>
-                <div class="notification-card">
-                    <i class="fas fa-bell"></i>
-                    <div class="notification-content">
-                        <p>Your borrow request for "1984" has been approved ✅ .</p>
-                        <span class="timestamp">1 day ago</span>
-                    </div>
-
+                <div class="library-info">
+                    <i class="fas fa-book"></i>
+                    <span>Sa Pal Phyu Library, Yangon</span>
                 </div>
-                <div class="notification-card">
-                    <i class="fas fa-bell"></i>
-                    <div class="notification-content">
-                        <p>Reminder: Return "Pride and Prejudice" by tomorrow.</p>
-                        <span class="timestamp">3 days ago</span>
-                    </div>
-                    <div class="noti-btns">
-                        <button class="noti-btn"><i class="fas fa-check"></i>Confirm</button>
-                        <button class="noti-btn"><i class="fas fa-x"></i>Remove</button>
-                    </div>
-                </div>
-                <div class="notification-card">
-                    <i class="fas fa-bell"></i>
-                    <div class="notification-content">
-                        <p> Kyaw Thu wants to borrow Atomic Habits..</p>
-                        <span class="timestamp">3 days ago</span>
-                    </div>
-                    <div class="noti-btns">
-                        <button class="noti-btn"><i class="fas fa-check"></i>Confirm</button>
-                        <button class="noti-btn"><i class="fas fa-x"></i>Remove</button>
-                    </div>
-                </div>
-                <div class="notification-card">
-                    <i class="fas fa-bell"></i>
-                    <div class="notification-content">
-                        <p>Aung Phyo wants to borrow Think Like a Monk</p>
-                        <span class="timestamp">3 days ago</span>
-                    </div>
-                    <div class="noti-btns">
-                        <button class="noti-btn"><i class="fas fa-check"></i>Confirm</button>
-                        <button class="noti-btn"><i class="fas fa-x"></i>Remove</button>
-                    </div>
-                </div>
-                <div class="notification-card">
-                    <i class="fas fa-bell"></i>
-                    <div class="notification-content">
-                        <p>Kaung Thant wants to borrow Deep Work.</p>
-                        <span class="timestamp">3 days ago</span>
-                    </div>
-                    <div class="noti-btns">
-                        <button class="noti-btn"><i class="fas fa-check"></i>Confirm</button>
-                        <button class="noti-btn"><i class="fas fa-x"></i>Remove</button>
-                    </div>
-                </div>
-                <div class="notification-card">
-                    <i class="fas fa-bell"></i>
-                    <div class="notification-content">
-                        <p>Your borrow request for Game of Thrones is approved✅ </p>
-                        <span class="timestamp">3 days ago</span>
-                    </div>
-                    <div class="noti-btns">
-                       
-                    </div>
-                </div>
+                <a href="#" class="borrow-btn" onclick="confirmBorrow(event)">Borrow Now</a>
             </div>
         </div>
     </section>
@@ -803,6 +717,13 @@
             if (savedTheme === 'dark') {
                 document.body.classList.add('dark-mode');
                 document.getElementById('theme-toggle').checked = true;
+            }
+        }
+
+        function confirmBorrow(event) {
+            event.preventDefault();
+            if (confirm('Are you sure you want to borrow "The Great Gatsby" for 14 days at 5000 MMK?')) {
+                console.log('Book borrowed successfully!');
             }
         }
     </script>

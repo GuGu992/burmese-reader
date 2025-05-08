@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Burmese Reader</title>
+    <title>Burmese Reader - About Us</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -58,9 +58,22 @@
             margin: 0 auto;
             padding: 0 20px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            gap: 30px;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .hamburger {
+            background: none;
+            border: none;
+            font-size: 24px;
+            display: none;
+            cursor: pointer;
+            color: #3C1518;
+        }
+
+        body.dark-mode .hamburger {
+            color: #F2F3AE;
         }
 
         .logo {
@@ -98,10 +111,10 @@
 
         .nav-links {
             display: flex;
-            align-items: center;
             gap: 30px;
-            flex-grow: 1;
             justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
         }
 
         .nav-links a {
@@ -120,6 +133,14 @@
         }
 
         body.dark-mode .nav-links a:hover {
+            color: #D58936;
+        }
+
+        .nav-links a.active {
+            color: #A44200;
+        }
+
+        body.dark-mode .nav-links a.active {
             color: #D58936;
         }
 
@@ -704,22 +725,27 @@
         }
 
         @media (max-width: 768px) {
-            .navbar-content {
+            .hamburger {
+                display: block;
+            }
+            
+            .nav-links {
+                width: 100%;
                 flex-direction: column;
-                gap: 20px;
+                align-items: flex-start;
+                display: none;
+                padding-top: 15px;
             }
 
-            .nav-links {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
+            .nav-links.show {
+                display: flex;
             }
 
             .nav-actions {
-                flex-direction: row;
-                gap: 10px;
-                width: 100%;
+                margin-top: 10px;
                 justify-content: center;
+                width: 100%;
+                flex-wrap: wrap;
             }
 
             .nav-btn {
@@ -793,16 +819,19 @@
     <nav class="navbar">
         <div class="navbar-content">
             <div class="logo">
-                <a href="second-home.html">
+                <a href="index.html">
                     <i class="fas fa-book"></i>
-                    <span>Burmese Reader</span>
+                    <span>Burmese Readers</span>
                 </a>
             </div>
-            <div class="nav-links">
+            <button class="hamburger" id="hamburger-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links fade-in" id="nav-menu">
                 <a href="index.html">Home</a>
                 <a href="library.html">Library</a>
-                <a href="upload.html">User Upload</a>
-                <a href="about-us.html">About Us</a>
+                <a href="upload.html">News Feed</a>
+                <a href="about-us.html" class="active">About Us</a>
                 <a href="contact-us.html">Contact Us</a>
             </div>
             <div class="nav-actions">
@@ -818,6 +847,17 @@
             </div>
         </div>
     </nav>
+
+    <script>
+        function toggleMenu() {
+            const navMenu = document.getElementById("nav-menu");
+            navMenu.classList.toggle("show");
+        }
+
+        function toggleMode() {
+            document.body.classList.toggle("dark-mode");
+        }
+    </script>
 
     <section class="fade-in hero" id="our-history-section">
         <div class="our-history-content">
@@ -858,7 +898,7 @@
 
     <section class="fade-in testimonials">
         <div class="container">
-            <h2>What Our Users Say</h2>
+            <h2>User Reviews</h2>
             <div class="testimonial-cards">
                 <div class="testimonial-card">
                     <img src="https://i.scdn.co/image/ab6761610000e5ebba50ca67ffc3097f6ea1710a" alt="User">
@@ -895,17 +935,14 @@
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about-us.html">About Us</a></li>
-                
-                    <li><a href="upload.html">User Upload</a></li>
+                    <li><a href="upload.html">News Feed</a></li>
                 </ul>
             </div>
             <div id="footer-help-support">
                 <h3>Help Center</h3>
                 <ul>
-                    
                     <li><a href="contact-us.html">Contact Us</a></li>
                     <li><a href="terms-of-service.html">Terms of Service</a></li>
-                    
                 </ul>
             </div>
             <div>

@@ -63,9 +63,22 @@
             margin: 0 auto;
             padding: 0 20px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            gap: 30px;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .hamburger {
+            background: none;
+            border: none;
+            font-size: 24px;
+            display: none;
+            cursor: pointer;
+            color: #3C1518;
+        }
+
+        body.dark-mode .hamburger {
+            color: #F2F3AE;
         }
 
         .logo {
@@ -103,10 +116,10 @@
 
         .nav-links {
             display: flex;
-            align-items: center;
             gap: 30px;
-            flex-grow: 1;
             justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
         }
 
         .nav-links a {
@@ -240,14 +253,6 @@
         }
 
         body.dark-mode .nav-actions a:hover {
-            color: #D58936;
-        }
-
-        .nav-actions .active {
-            color: #A44200;
-        }
-
-        body.dark-mode .nav-actions .active {
             color: #D58936;
         }
 
@@ -522,22 +527,27 @@
         }
 
         @media (max-width: 768px) {
-            .navbar-content {
-                flex-direction: column;
-                gap: 20px;
+            .hamburger {
+                display: block;
             }
 
             .nav-links {
+                width: 100%;
                 flex-direction: column;
-                gap: 15px;
-                text-align: center;
+                align-items: flex-start;
+                display: none;
+                padding-top: 15px;
+            }
+
+            .nav-links.show {
+                display: flex;
             }
 
             .nav-actions {
-                flex-direction: row;
-                gap: 20px;
-                width: 100%;
+                margin-top: 10px;
                 justify-content: center;
+                width: 100%;
+                flex-wrap: wrap;
             }
 
             .contact-us-container {
@@ -559,17 +569,20 @@
     <nav class="navbar">
         <div class="navbar-content">
             <div class="logo">
-                <a href="second-home-page.html">
+                <a href="second-home.html">
                     <i class="fas fa-book"></i>
-                    <span>Burmese Reader</span>
+                    <span>Burmese Readers</span>
                 </a>
             </div>
-            <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="library.html">Library</a>
-                <a href="second-upload.html">User Upload</a>
+            <button class="hamburger" id="hamburger-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links fade-in" id="nav-menu">
+                <a href="second-home.html">Home</a>
+                <a href="second-library.html">Library</a>
+                <a href="second-upload.html">News Feed</a>
                 <a href="second-about-us.html">About Us</a>
-                <a href="second-contact-us-page.html">Contact Us</a>
+                <a href="second-contact-us-page.html" class="active">Contact Us</a>
             </div>
             <div class="nav-actions">
                 <label class="theme-switch">
@@ -616,9 +629,9 @@
             <div>
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="second-home-page.html">Home</a></li>
+                    <li><a href="second-home.html">Home</a></li>
                     <li><a href="second-about-us.html">About Us</a></li>
-                    <li><a href="second-upload.html">User Upload</a></li>
+                    <li><a href="second-upload.html">News Feed</a></li>
                 </ul>
             </div>
             <div id="footer-help-support">
@@ -640,6 +653,11 @@
     </footer>
 
     <script>
+        function toggleMenu() {
+            const navMenu = document.getElementById("nav-menu");
+            navMenu.classList.toggle("show");
+        }
+
         function toggleMode() {
             document.body.classList.toggle('dark-mode');
             const themeToggle = document.getElementById('theme-toggle');

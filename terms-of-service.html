@@ -59,9 +59,22 @@
             margin: 0 auto;
             padding: 0 20px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            gap: 30px;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .hamburger {
+            background: none;
+            border: none;
+            font-size: 24px;
+            display: none;
+            cursor: pointer;
+            color: #3C1518;
+        }
+
+        body.dark-mode .hamburger {
+            color: #F2F3AE;
         }
 
         .logo {
@@ -99,10 +112,10 @@
 
         .nav-links {
             display: flex;
-            align-items: center;
             gap: 30px;
-            flex-grow: 1;
             justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
         }
 
         .nav-links a {
@@ -122,6 +135,21 @@
 
         body.dark-mode .nav-links a:hover {
             color: #D58936;
+        }
+
+        .nav-links a.active {
+            color: #A44200;
+        }
+
+        body.dark-mode .nav-links a.active {
+            color: #D58936;
+        }
+
+        .navbar-content.mobile-open .nav-links,
+        .navbar-content.mobile-open .nav-actions {
+            max-height: 500px;
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .nav-actions {
@@ -303,6 +331,27 @@
             margin: 0 auto;
         }
 
+        .terms-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .terms-card {
+            background: rgba(34, 34, 34, 0.9);
+        }
+
+        .terms-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode .terms-card:hover {
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+        }
+
         .terms-content h3 {
             font-size: 24px;
             margin-bottom: 15px;
@@ -319,7 +368,7 @@
 
         .terms-content p {
             font-size: 16px;
-            line-height: 1.6;
+            line-height: 1.8;
             margin-bottom: 20px;
             text-align: justify;
         }
@@ -470,22 +519,27 @@
         }
 
         @media (max-width: 768px) {
-            .navbar-content {
-                flex-direction: column;
-                gap: 20px;
+            .hamburger {
+                display: block;
             }
 
             .nav-links {
+                width: 100%;
                 flex-direction: column;
-                gap: 15px;
-                text-align: center;
+                align-items: flex-start;
+                display: none;
+                padding-top: 15px;
+            }
+
+            .nav-links.show {
+                display: flex;
             }
 
             .nav-actions {
-                flex-direction: row;
-                gap: 10px;
-                width: 100%;
+                margin-top: 10px;
                 justify-content: center;
+                width: auto;
+                flex-wrap: wrap;
             }
 
             .nav-btn {
@@ -500,6 +554,10 @@
             .terms-content {
                 max-width: 100%;
             }
+
+            .terms-card {
+                padding: 15px;
+            }
         }
     </style>
 </head>
@@ -507,15 +565,18 @@
     <nav class="navbar">
         <div class="navbar-content">
             <div class="logo">
-                <a href="second-home.html">
+                <a href="index.html">
                     <i class="fas fa-book"></i>
                     <span>Burmese Reader</span>
                 </a>
             </div>
-            <div class="nav-links">
+            <button class="hamburger" id="hamburger-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links fade-in" id="nav-menu">
                 <a href="index.html">Home</a>
                 <a href="library.html">Library</a>
-                <a href="upload.html">User Upload</a>
+                <a href="upload.html">News Feed</a>
                 <a href="about-us.html">About Us</a>
                 <a href="contact-us.html">Contact Us</a>
             </div>
@@ -537,40 +598,48 @@
         <div class="terms-container">
             <h2>Terms of Service</h2>
             <div class="terms-content">
-                <h3>1. Acceptance of Terms</h3>
-                <p>
-                    By accessing or using the Burmese Reader website, you agree to comply with these Terms of Service. If you do not agree with any part of these terms, please refrain from using our services. Your continued use of the platform indicates your acceptance of any updates to these terms.
-                </p>
-
-                <h3>2. Use of Services</h3>
-                <p>
-                    You may only use the Burmese Reader platform for lawful purposes and in a manner that does not infringe on the rights of others or hinder their use of the service. Prohibited actions include uploading harmful content, engaging in fraudulent behavior, or attempting unauthorized access to our systems.
-                </p>
-
-                <h3>3. Borrowing and Lending</h3>
-                <p>
-                    When borrowing books, you agree to return them within the specified period (typically 14 days). Late returns may incur fees as per our policy. You are responsible for the condition of borrowed books during your possession.
-                </p>
-
-                <h3>4. User Content</h3>
-                <p>
-                    Users may upload content such as reviews or materials. By doing so, you grant Burmese Reader a non-exclusive, royalty-free license to use, display, and distribute your content. Ensure your uploads comply with all applicable laws and respect third-party rights.
-                </p>
-
-                <h3>5. Limitation of Liability</h3>
-                <p>
-                    Burmese Reader is not liable for any damages resulting from your use of the platform, including data loss, financial harm, or personal injury. Our services are provided "as-is" without any warranties, express or implied.
-                </p>
-
-                <h3>6. Modifications to Terms</h3>
-                <p>
-                    We reserve the right to update these Terms of Service to reflect changes in our services or legal requirements. Updates will be posted here with an effective date, and continued use of the platform after such changes constitutes acceptance.
-                </p>
-
-                <h3>7. Contact Information</h3>
-                <p>
-                    For any questions regarding these Terms of Service, please reach out to us at <a href="mailto:support@burmesereader.com">burmesereader@gmail.com</a> or call <a href="tel:+95123456789">+95 123 456 789</a>.
-                </p>
+                <div class="terms-card">
+                    <h3>1. Acceptance of Terms</h3>
+                    <p>
+                        By accessing or using the Burmese Reader website, you agree to comply with these Terms of Service. If you do not agree with any part of these terms, please refrain from using our services. Your continued use of the platform indicates your acceptance of any updates to these terms.
+                    </p>
+                </div>
+                <div class="terms-card">
+                    <h3>2. Use of Services</h3>
+                    <p>
+                        You may only use the Burmese Reader platform for lawful purposes and in a manner that does not infringe on the rights of others or hinder their use of the service. Prohibited actions include uploading harmful content, engaging in fraudulent behavior, or attempting unauthorized access to our systems.
+                    </p>
+                </div>
+                <div class="terms-card">
+                    <h3>3. Borrowing and Lending</h3>
+                    <p>
+                        When borrowing books, you agree to return them within the specified period (typically 14 days). Late returns may incur fees as per our policy. You are responsible for the condition of borrowed books during your possession.
+                    </p>
+                </div>
+                <div class="terms-card">
+                    <h3>4. User Content</h3>
+                    <p>
+                        Users may upload content such as reviews or materials. By doing so, you grant Burmese Reader a non-exclusive, royalty-free license to use, display, and distribute your content. Ensure your uploads comply with all applicable laws and respect third-party rights.
+                    </p>
+                </div>
+                <div class="terms-card">
+                    <h3>5. Limitation of Liability</h3>
+                    <p>
+                        Burmese Reader is not liable for any damages resulting from your use of the platform, including data loss, financial harm, or personal injury. Our services are provided "as-is" without any warranties, express or implied.
+                    </p>
+                </div>
+                <div class="terms-card">
+                    <h3>6. Modifications to Terms</h3>
+                    <p>
+                        We reserve the right to update these Terms of Service to reflect changes in our services or legal requirements. Updates will be posted here with an effective date, and continued use of the platform after such changes constitutes acceptance.
+                    </p>
+                </div>
+                <div class="terms-card">
+                    <h3>7. Contact Information</h3>
+                    <p>
+                        For any questions regarding these Terms of Service, please reach out to us at <a href="mailto:support@burmesereader.com">burmesereader@gmail.com</a> or call <a href="tel:+95123456789">+95 123 456 789</a>.
+                    </p>
+                </div>
             </div>
         </div>
     </section>
@@ -589,7 +658,7 @@
                 <h3>Help Center</h3>
                 <ul>
                     <li><a href="contact-us.html">Contact Us</a></li>
-                    <li><a href="trems-of-service.html">Terms of Service</a></li>
+                    <li><a href="terms-of-service.html">Terms of Service</a></li>
                 </ul>
             </div>
             <div>
@@ -608,6 +677,11 @@
     </footer>
 
     <script>
+        function toggleMenu() {
+            const navMenu = document.getElementById("nav-menu");
+            navMenu.classList.toggle("show");
+        }
+
         function toggleMode() {
             document.body.classList.toggle('dark-mode');
             const themeToggle = document.getElementById('theme-toggle');
